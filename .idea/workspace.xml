@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e073fdbc-5e79-4fb0-9268-87b099d31ee0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/shopify.js" afterPath="$PROJECT_DIR$/routes/shopify.js" />
-    </list>
+    <list default="true" id="e073fdbc-5e79-4fb0-9268-87b099d31ee0" name="Default" comment="" />
     <ignored path="shopify.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -264,12 +260,12 @@
       <workItem from="1469187947957" duration="290000" />
       <workItem from="1469188643542" duration="73000" />
       <workItem from="1469188719223" duration="935000" />
-      <workItem from="1469418719171" duration="13507000" />
+      <workItem from="1469418719171" duration="13526000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15763000" />
+    <option name="totallyTimeSpent" value="15782000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
