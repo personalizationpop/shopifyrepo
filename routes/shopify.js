@@ -55,7 +55,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
         clcShopDetail.find({}).exec(function(err, result) {
             if (!err) {
-                res.send(shopDetail.shop);
+                res.send(result.shop);
             } else {
                 res.send(err);
             };
