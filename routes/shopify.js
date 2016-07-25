@@ -54,7 +54,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
         console.log(shopDetail.shop);
     });*/
 
-    process.exit();
+    //process.exit();
 
     /*var postDate =
     {
