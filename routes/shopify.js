@@ -2,6 +2,7 @@ var express = require('express');
 var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
 var util = require('util');
+var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
 
 
 var shop = "sofizarstore.myshopify.com";
@@ -40,9 +41,11 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     //var Shopify = new shopifyAPI(config), // You need to pass in your config here
     var query_params = req.query;
 
+    dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
+        if (err) throw err;
+    });
+
     var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
-
-
 
 
     ////// Check Db for Access Token
