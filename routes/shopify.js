@@ -47,14 +47,14 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
 
     ////// Check Db for Access Token
-    dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
+    /*dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
         if (err) throw err;
 
         // object of the user
         console.log(shopDetail.shop);
-    });
+    });*/
 
-    process.exit();
+    //process.exit();
 
     var postDate =
     {
