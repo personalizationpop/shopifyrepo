@@ -56,8 +56,11 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     });
 
     res.send("Hello");
-    
-    process.exit();
+
+    var monkey = require('node-monkey');
+    monkey.attachConsole();
+
+    //process.exit();
 
     /*var postDate =
     {
