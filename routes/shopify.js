@@ -45,8 +45,6 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
         if (err) throw err;
     });
 
-    var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
-
 
     ////// Check Db for Access Token
 
