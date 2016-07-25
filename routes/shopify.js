@@ -44,6 +44,8 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
         if (err){
             res.send(err);
+        }else{
+            res.send(shopDetail.shop);
         }
     });
 
