@@ -4,7 +4,6 @@ var shopifyAPI = require('shopify-node-api');
 var util = require('util');
 
 
-
 var shop = "sofizarstore.myshopify.com";
 var shopifyAppKey = "ff0c02ef99d9efe2f480e2e375a9b0c3";
 var shopifySecretKey = "544c5073917ec58c840ab62f69e377fd";
@@ -40,8 +39,9 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     //var Shopify = new shopifyAPI(config), // You need to pass in your config here
     var query_params = req.query;
 
-    var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
-    dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
+    var dbCollectionShopDetail = require('../models/dbShopDetail.js');
+    var dbShop = new dbCollectionShopDetail({});
+    dbShop.find({ shop: shop }, function(err, shopDetail) {
         if (err){
             res.send(err);
         }

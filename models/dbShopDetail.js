@@ -5,9 +5,6 @@
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp');
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
     // we're connected!
 
     var shopSchema = new Schema({
@@ -18,9 +15,8 @@ db.once('open', function() {
 
 // make this available to our users in our Node applications
     module.exports = clcShopDetail;
-    
-});
-    // we're connected!
+
+
 
 
 
