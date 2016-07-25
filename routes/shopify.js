@@ -53,13 +53,14 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
         var clcShopDetail = mongoose.model('clcShopDetail', shopSchema);
 
-        clcShopDetail.find({ shop: shop }, function(err, shopDetail) {
-            if (err){
-                res.send(err);
-            }else{
+        clcShopDetail.find({}).exec(function(err, result) {
+            if (!err) {
                 res.send(shopDetail.shop);
-            }
+            } else {
+                res.send(err);
+            };
         });
+
 
         db.connection.close();
         res.send("Connection Closed");
