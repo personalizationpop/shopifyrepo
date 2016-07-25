@@ -2,7 +2,7 @@ var express = require('express');
 var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
 var util = require('util');
-var dbCollectionShopDetail  = require('../models/dbShopDetail');
+//var dbCollectionShopDetail  = require('../models/dbShopDetail');
 
 var shop = "sofizarstore.myshopify.com";
 var shopifyAppKey = "ff0c02ef99d9efe2f480e2e375a9b0c3";
