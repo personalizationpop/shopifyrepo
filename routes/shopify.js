@@ -2,7 +2,7 @@ var express = require('express');
 var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
 var util = require('util');
-//var dbCollectionShopDetail  = require('../models/dbShopDetail');
+var dbCollectionShopDetail  = require('../models/dbShopDetail');
 
 var shop = "sofizarstore.myshopify.com";
 var shopifyAppKey = "ff0c02ef99d9efe2f480e2e375a9b0c3";
@@ -45,16 +45,16 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
         return callback(new Error("Signature is not authentic!"));
     }
 
-
+    
     ////// Check Db for Access Token
-    /*dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
+    dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
         if (err) throw err;
 
         // object of the user
         console.log(shopDetail.shop);
-    });*/
+    });
 
-    //process.exit();
+    process.exit();
 
     /*var postDate =
     {
