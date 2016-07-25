@@ -62,7 +62,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
         });
 
         db.connection.close();
-
+        res.send("Connection Closed");
     });
 
 
