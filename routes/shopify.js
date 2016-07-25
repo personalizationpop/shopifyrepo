@@ -41,7 +41,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     var query_params = req.query;
 
     //var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
-
+    res.send("Hello");
     if (!Shopify.is_valid_signature(query_params,true)) {
         return callback(new Error("Signature is not authentic!"));
     }
