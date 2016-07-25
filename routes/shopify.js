@@ -48,11 +48,11 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
 
     ////// Check Db for Access Token
-    dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
-        if (err) throw err;
-    });
+
 
     res.send("Hello");
+
+    
 
     //var monkey = require('node-monkey');
     //monkey.attachConsole();
