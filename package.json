@@ -13,6 +13,7 @@
     "jade": "~1.11.0",
     "mongoose": "^4.5.6",
     "morgan": "~1.7.0",
+    "node-monkey": "^0.2.9",
     "serve-favicon": "~2.3.0",
     "shopify-node-api": "^1.7.2",
     "util": "^0.10.3"
