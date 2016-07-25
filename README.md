@@ -1,3 +1,3 @@
-# personpop
+# ShopifyTestApp
 
 Heroku application
