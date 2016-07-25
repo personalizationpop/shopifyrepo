@@ -40,8 +40,8 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     var query_params = req.query;
 
 
-    var dbShop = new dbCollectionShopDetail({});
-    dbShop.find({ shop: shop }, function(err, shopDetail) {
+
+    dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
         if (err){
             res.send(err);
         }
