@@ -41,7 +41,13 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     var query_params = req.query;
 
 
-    var db = mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp');
+    var db = mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp',function (err, res) {
+        if (err) {
+            res.send('connection not Established');
+        } else {
+            res.send('connection Established');
+        }
+    });
 
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function() {
