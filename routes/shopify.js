@@ -1,6 +1,8 @@
 var express = require('express');
 var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
+var util = require('util');
+
 var shop = "sofizarstore.myshopify.com";
 var shopifyAppKey = "ff0c02ef99d9efe2f480e2e375a9b0c3";
 var shopifySecretKey = "544c5073917ec58c840ab62f69e377fd";
@@ -50,12 +52,11 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
         "code":query_params["code"]
     };
 
-    Shopify.post('/admin/oauth/access_token', postDate, function(err, resp) {
+    Shopify.post('/admin/oauth/access_token', postDate, function(err, data) {
         if(err) {
             return console.log(err);
         }
-        console.log(resp);
-        res.send("Everything Good"+resp);
+        res.send(util.inspect(data));
     });
 
 
