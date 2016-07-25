@@ -39,9 +39,8 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
     //var Shopify = new shopifyAPI(config), // You need to pass in your config here
     var query_params = req.query;
-    console.log(query_params);
 
-    var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
+    //var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
 
     if (!Shopify.is_valid_signature(query_params,true)) {
         return callback(new Error("Signature is not authentic!"));
