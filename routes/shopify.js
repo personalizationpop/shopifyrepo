@@ -31,7 +31,6 @@ shopifyRouter.get('/', function(req, res, next) {
 // you can redirect the user automatically like so
     res.redirect(auth_url);
 
-    //res.send('Shopiy Page');
 });
 
 
@@ -43,7 +42,9 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
     var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
     dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
-        if (err) throw err;
+        if (err){
+            res.send(err);
+        }
     });
 
 
