@@ -38,7 +38,11 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
       query_params = req.query;
     console.log(query_params);
     console.log(req.query.code);
-    Shopify.exchange_temporary_token(query_params, function(err, data){
+    Shopify.prototype.exchange_temporary_token(query_params, function(err, data){
+
+        if (!self.is_valid_signature(query_params,true)) {
+            return callback(new Error("Signature is not authentic!"));
+        }
         // This will return successful if the request was authentic from Shopify
         // Otherwise err will be non-null.
         // The module will automatically update your config with the new access token
