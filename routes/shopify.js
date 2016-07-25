@@ -38,25 +38,27 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
       query_params = req.query;
     console.log(query_params);
     console.log(req.query.code);
-    /*Shopify.exchange_temporary_token(query_params, function(err, data){
+    if (!self.is_valid_signature(query_params,true)) {
+        return callback(new Error("Signature is not authentic!"));
+    }
 
-        if (!self.is_valid_signature(query_params)) {
-            return callback(new Error("Signature is not authentic!"));
-        }
+    Shopify.exchange_temporary_token(query_params, function(err, data){
+
+
         // This will return successful if the request was authentic from Shopify
         // Otherwise err will be non-null.
         // The module will automatically update your config with the new access token
         // It is also available here as data['access_token']
         res.send("Everything Good"+data);
-    });*/
+    });
 
-    Shopify.post('/admin/oauth/'+req.query.code, postData, function(err, resp) {
+    /*Shopify.post('/admin/oauth/'+req.query.code, postData, function(err, resp) {
         if(err) {
             return console.log(err);
         }
         console.log(resp);
         res.send("Everything Good"+resp);
-    });
+    });*/
 
 
 });
