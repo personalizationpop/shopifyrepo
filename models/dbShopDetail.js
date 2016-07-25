@@ -7,7 +7,7 @@ mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp');
 
     // we're connected!
 
-    var shopSchema = new Schema({
+    var shopSchema = new mongoose.Schema({
         strict:false
     });
 
