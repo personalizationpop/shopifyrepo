@@ -40,22 +40,24 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     //var Shopify = new shopifyAPI(config), // You need to pass in your config here
     var query_params = req.query;
 
-    //var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
-    res.send("Hello");
+    var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
+
     if (!Shopify.is_valid_signature(query_params,true)) {
         return callback(new Error("Signature is not authentic!"));
     }
 
 
     ////// Check Db for Access Token
-    /*dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
+    dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
         if (err) throw err;
 
         // object of the user
         console.log(shopDetail.shop);
     });
 
-    process.exit();*/
+    res.send("Hello");
+    
+    process.exit();
 
     /*var postDate =
     {
