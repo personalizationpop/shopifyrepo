@@ -37,7 +37,7 @@
         <entry file="file://$PROJECT_DIR$/routes/shopify.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="442">
-              <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+              <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -263,12 +263,12 @@
       <workItem from="1469187947957" duration="290000" />
       <workItem from="1469188643542" duration="73000" />
       <workItem from="1469188719223" duration="935000" />
-      <workItem from="1469418719171" duration="15836000" />
+      <workItem from="1469418719171" duration="15889000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18092000" />
+    <option name="totallyTimeSpent" value="18145000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -388,7 +388,7 @@
     <entry file="file://$PROJECT_DIR$/routes/shopify.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
-          <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+          <caret line="56" column="21" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
           <folding />
         </state>
       </provider>
