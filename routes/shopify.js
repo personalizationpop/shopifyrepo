@@ -9,12 +9,15 @@ var shop = "sofizarstore.myshopify.com";
 var shopifyAppKey = "ff0c02ef99d9efe2f480e2e375a9b0c3";
 var shopifySecretKey = "544c5073917ec58c840ab62f69e377fd";
 var shopifyScope = "write_products,read_orders,write_orders,read_products";
+var redirectUri = "https://herokushopifyapp.herokuapp.com/finish_auth";
 
 var config = {
     shop: shop, // MYSHOP.myshopify.com
     shopify_api_key: shopifyAppKey, // Your API key
     shopify_shared_secret: shopifySecretKey, // Your Shared Secret
-    shopify_scope: shopifyScope
+    shopify_scope: shopifyScope,
+    redirect_uri:redirectUri
+
 };
 
 var Shopify = new shopifyAPI(config);
