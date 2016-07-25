@@ -43,7 +43,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
         // Otherwise err will be non-null.
         // The module will automatically update your config with the new access token
         // It is also available here as data['access_token']
-        res.send("Everything Good"+data['access_token']);
+        res.send("Everything Good"+data);
     });
 
 
