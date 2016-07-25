@@ -2,7 +2,8 @@ var express = require('express');
 var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
 var util = require('util');
-var dbCollectionShopDetail = require('../models/dbShopDetail.js');
+var mongoose = require('mongoose');
+//var dbCollectionShopDetail = require('../models/dbShopDetail.js');
 
 var shop = "sofizarstore.myshopify.com";
 var shopifyAppKey = "ff0c02ef99d9efe2f480e2e375a9b0c3";
@@ -40,14 +41,29 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     var query_params = req.query;
 
 
+    mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp');
 
-    dbCollectionShopDetail.find({ shop: shop }, function(err, shopDetail) {
-        if (err){
-            res.send(err);
-        }else{
-            res.send(shopDetail.shop);
-        }
+
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+        // we're connected!
+
+        var shopSchema = new mongoose.Schema({
+            strict:false
+        });
+
+        var clcShopDetail = mongoose.model('clcShopDetail', shopSchema);
+
+        clcShopDetail.find({ shop: shop }, function(err, shopDetail) {
+            if (err){
+                res.send(err);
+            }else{
+                res.send(shopDetail.shop);
+            }
+        });
+
     });
+
 
 
     ////// Check Db for Access Token
