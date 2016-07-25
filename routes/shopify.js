@@ -56,7 +56,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
     //process.exit();
 
-    var postDate =
+    /*var postDate =
     {
         "client_id":shopifyAppKey,
         "client_secret":shopifySecretKey,
@@ -68,7 +68,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
             return console.log(err);
         }
         res.send(util.inspect(data));
-    });
+    });*/
 
 
 });
