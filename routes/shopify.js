@@ -42,9 +42,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
     var dbCollectionShopDetail  = require('../models/dbShopDetail.js');
 
-    if (!Shopify.is_valid_signature(query_params,true)) {
-        return callback(new Error("Signature is not authentic!"));
-    }
+
 
 
     ////// Check Db for Access Token
@@ -52,14 +50,21 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
     res.send("Hello");
 
-    
+
+
+
 
     //var monkey = require('node-monkey');
     //monkey.attachConsole();
 
     //process.exit();
 
-    /*var postDate =
+    /*
+    if (!Shopify.is_valid_signature(query_params,true)) {
+        return callback(new Error("Signature is not authentic!"));
+    }
+
+    var postDate =
     {
         "client_id":shopifyAppKey,
         "client_secret":shopifySecretKey,
