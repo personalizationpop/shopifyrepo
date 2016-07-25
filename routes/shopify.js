@@ -34,8 +34,8 @@ shopifyRouter.get('/', function(req, res, next) {
 shopifyRouter.get('/finish_auth',function (req,res,next) {
 
 
-    //var Shopify = new shopifyAPI(config); // You need to pass in your config here
-    var query_params = req.query;
+    var Shopify = new shopifyAPI(config), // You need to pass in your config here
+      query_params = req.query;
     console.log(query_params);
     console.log(req.query.code);
     Shopify.exchange_temporary_token(query_params, function(err, data){
