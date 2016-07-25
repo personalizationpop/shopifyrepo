@@ -42,7 +42,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
 
     mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp');
-
+    var db = mongoose.connection;
 
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function() {
