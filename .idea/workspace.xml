@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e073fdbc-5e79-4fb0-9268-87b099d31ee0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/dbShopDetail.js" afterPath="$PROJECT_DIR$/models/dbShopDetail.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/shopify.js" afterPath="$PROJECT_DIR$/routes/shopify.js" />
     </list>
     <ignored path="shopify.iws" />
@@ -37,8 +36,8 @@
       <file leaf-file-name="shopify.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/shopify.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="43" column="59" selection-start-line="43" selection-start-column="59" selection-end-line="43" selection-end-column="59" />
+            <state relative-caret-position="68">
+              <caret line="4" column="66" selection-start-line="4" selection-start-column="66" selection-end-line="4" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -264,12 +263,12 @@
       <workItem from="1469187947957" duration="290000" />
       <workItem from="1469188643542" duration="73000" />
       <workItem from="1469188719223" duration="935000" />
-      <workItem from="1469418719171" duration="20679000" />
+      <workItem from="1469418719171" duration="20773000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22935000" />
+    <option name="totallyTimeSpent" value="23029000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -388,8 +387,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/shopify.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="43" column="59" selection-start-line="43" selection-start-column="59" selection-end-line="43" selection-end-column="59" />
+        <state relative-caret-position="68">
+          <caret line="4" column="66" selection-start-line="4" selection-start-column="66" selection-end-line="4" selection-end-column="66" />
           <folding />
         </state>
       </provider>
