@@ -38,6 +38,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
 
     //var Shopify = new shopifyAPI(config), // You need to pass in your config here
+    /*
     var query_params = req.query;
 
 
@@ -75,7 +76,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
 
 
     ////// Check Db for Access Token
-
+*/
 
     res.send("Hello Pakistan");
 
