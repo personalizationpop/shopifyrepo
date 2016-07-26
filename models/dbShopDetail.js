@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
     });
     
 
-    var clcShopDetail = mongoose.model('clcShopDetail', shopSchema);
+    var clcShopDetail = mongoose.model('clcShopDetails', shopSchema);
 
 // make this available to our users in our Node applications
     module.exports = clcShopDetail;
