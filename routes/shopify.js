@@ -61,7 +61,7 @@ var dbCollectionShopDetail = require('../models/dbShopDetail.js');
     ////// Check Db for Access Token
 
 
-    res.send("Hello India");
+    //res.send("Hello India");
 
 
     //var monkey = require('node-monkey');
