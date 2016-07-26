@@ -18,6 +18,7 @@ db.once('open', function callback() {
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var shopify = require('./routes/shopify');
+var recurring = require('./routes/recurring');
 
 var app = express();
 
@@ -40,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/shopify', shopify);
+app.use('/recurring', recurring);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
