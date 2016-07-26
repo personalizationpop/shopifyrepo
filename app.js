@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 //Connect to Mongo
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp');
+mongoose.connect('mongodb://heroku_app27425726:juu4gm5alpd1lgth975rudgrh6@ds061710-a0.mongolab.com:61710/heroku_app27425726');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
