@@ -94,7 +94,7 @@ var dbCollectionShopDetail = require('../models/dbShopDetail.js');
         doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
         res.send(util.inspect(data));
         
-    });*/
+    });
 
 
 });
