@@ -52,9 +52,9 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
        
        
        
-        console.log("result[0]['shop'] : "+ result[0]['shop']);
+        console.log("result[0] : "+ result[0]);
    
-       //res.send(resString[0]);
+       res.send(resString);
    
     }
     });  
