@@ -44,7 +44,7 @@ console.log('Hello');
 
  
     
-dbCollectionShopDetail.find({},function(err, result) {
+dbCollectionShopDetail.find({shop:shop},function(err, result) {
         if (err) {
       console.log(err+ ' error');
     } else {
