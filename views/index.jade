@@ -4,8 +4,8 @@ block content
   h1= title
   p Welcome #{title}
   h1 Choose Payment Plan
-  form(name="charging", action="/", method="post")
-    input(type="checkbox",name="plan1", id="idPlan1") span choose plan
+  form(name="charging", action="/recurring", method="post")
+    input(type="checkbox",name="plan1", id="idPlan1")
     input(type="submit", value="create plan")
     
       
