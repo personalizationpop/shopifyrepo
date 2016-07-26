@@ -3,3 +3,10 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+div
+  h1 Choose Payment Plan
+  div.charging
+    form(name="charging", action="/recurring", method="post")
+      input(type="checkbox",name="plan1", id="idPlan1") Plan1
+      input(type="submit", value="create plan")
+      
