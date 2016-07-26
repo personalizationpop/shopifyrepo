@@ -53,7 +53,21 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
        //res.send(JSON.stringify(result, undefined, 2)); print json
        //var resJson2 = JSON.parse(result);
        //var resJson = JSON.stringify(result, undefined, 2);
-       res.send(JSON.stringify(result, undefined, 2)[0].shop);
+       var resParse = JSON.parse(result);
+       var resString = JSON.stringify(result, undefined, 2);
+       console.log('result : '+ result);
+       console.log('result['shop'] : '+ result);
+       console.log('result[0]['shop'] : '+ result[0]['shop']);
+              console.log('resParse : '+ result);
+       console.log('resParse['shop'] : '+ result);
+       console.log('resParse[0]['shop'] : '+ result[0]['shop']);
+        console.log('resString : '+ result);
+       console.log('resString['shop'] : '+ result);
+       console.log('resString[0]['shop'] : '+ result[0]['shop']);
+       
+       
+       
+       res.send('Hehe');
        
        
     }
