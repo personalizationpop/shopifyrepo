@@ -53,7 +53,7 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
        
        
         var resJson = JSON.stringify(result,undefined,2);
-        var resParse = JSON.parse(result.toString().trim());
+        var resParse = JSON.parse(resJson.trim());
         console.log("resParse[0].shop : ");
         res.send(resJson);
    
