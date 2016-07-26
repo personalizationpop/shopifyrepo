@@ -52,9 +52,9 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
        
        var resString = JSON.parse(result);
        
-        console.log('resString : '+ resString);
+        console.log('resString : '+ resString[0]);
    
-       res.send(resString[0]);
+       //res.send(resString[0]);
    
     }
     });  
