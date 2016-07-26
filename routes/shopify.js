@@ -2,7 +2,6 @@ var express = require('express');
 var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
 var util = require('util');
-var mongoose = require('mongoose');
 var dbCollectionShopDetail = require('../models/dbShopDetail.js');
 
 
@@ -41,38 +40,15 @@ console.log('Hello');
     //var Shopify = new shopifyAPI(config), // You need to pass in your config here
     
     var query_params = req.query;
-
-
-    var db = mongoose.createConnection('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp',function (err, ress) {
+    var sh = query_params['shop'];
+    
+dbCollectionShopDetail.find({'shop':shop}).exec(function(err, result) {
         if (err) {
-            ress.send('connection not Established');
-        } else {
-            ress.send('connection Established');
-        }
-    });
-
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function() {
-        // we're connected!
-
-        var shopSchema = new mongoose.Schema({
-            strict:false
-        });
-
-        var clcShopDetail = mongoose.model('clcShopDetail', shopSchema);
-
-        clcShopDetail.find({}).exec(function(err, result) {
-            if (!err) {
-                res.send(result.shop);
-            } else {
-                res.send(err);
-            };
-        });
-
-
-        db.connection.close();
-        res.send("Connection Closed");
-    });
+      console.log(err+ ' error');
+    } else {
+       console.log('data '+ data);
+    }
+    });    
 
 
 
@@ -80,9 +56,6 @@ console.log('Hello');
 
 
     res.send("Hello India");
-
-
-
 
 
     //var monkey = require('node-monkey');
