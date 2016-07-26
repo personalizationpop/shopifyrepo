@@ -46,7 +46,7 @@ dbCollectionShopDetail.find({'shop':shop}).exec(function(err, result) {
         if (err) {
       console.log(err+ ' error');
     } else {
-       console.log('result '+ result);
+       console.log('result '+ result.shop);
     }
     });    
 
