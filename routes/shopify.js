@@ -2,7 +2,7 @@ var express = require('express');
 var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
 var util = require('util');
-var dbCollectionShopDetail = require('../models/dbShopDetail.js');
+
 
 
 var shop = "sofizarstore.myshopify.com";
@@ -42,6 +42,7 @@ console.log('Hello');
     var query_params = req.query;
     var sh = query_params['shop'];
     
+var dbCollectionShopDetail = require('../models/dbShopDetail.js');    
 dbCollectionShopDetail.find({},function(err, result) {
         if (err) {
       console.log(err+ ' error');
