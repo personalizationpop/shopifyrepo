@@ -49,6 +49,7 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
       console.log(err+ ' error');
     } else {
        console.log('result '+ result.length);
+       res.send(result.shop);
     }
     });  
 
