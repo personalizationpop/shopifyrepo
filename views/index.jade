@@ -3,9 +3,6 @@ extends layout
 block content
   h1= title
   p Welcome #{title}
-  h1= Choose Payment Plan
-  div
-    form(name="charging", action="/", method="post")
-      input(type="checkbox",name="plan1", id="idPlan1")
-      input(type="submit", value="create plan")
+  h1 Choose Payment Plan
+  
       
