@@ -54,7 +54,7 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
        
         console.log('resString : '+ resString);
    
-       res.send(resString);
+       res.send(resString[0]);
    
     }
     });  
