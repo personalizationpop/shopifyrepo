@@ -42,11 +42,11 @@ console.log('Hello');
     var query_params = req.query;
     var sh = query_params['shop'];
     
-dbCollectionShopDetail.find({}).exec(function(err, result) {
+dbCollectionShopDetail.find({},function(err, result) {
         if (err) {
       console.log(err+ ' error');
     } else {
-       console.log('result '+ result.shop);
+       console.log('result '+ result.length);
     }
     });    
 
