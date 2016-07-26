@@ -49,10 +49,9 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
       console.log(err+ ' error');
     } else {
        console.log('result '+ result.length);
-       res.write(util.inspect(result));
+       res.send(util.inspect(result['shop']));
        
-       res.write(util.inspect(JSON.stringify(result)));
-       res.end(util.inspect(JSON.parse(result)));
+       
     }
     });  
 
