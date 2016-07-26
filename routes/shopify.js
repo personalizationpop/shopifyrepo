@@ -53,8 +53,8 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
        
        
         console.log("result[0] : "+ result[0]);
-   
-       res.send(result);
+        var resJson = JSON.stringify(result);
+        res.send(resJson);
    
     }
     });  
