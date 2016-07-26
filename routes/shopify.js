@@ -50,7 +50,8 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
     } else {
        console.log('result '+ result.length);
        
-       res.send(JSON.stringify(result, null, 4));
+       //res.send(JSON.stringify(result)); print json
+       res.send(result[0].shop);
        
        
     }
