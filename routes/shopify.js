@@ -42,14 +42,19 @@ console.log('Hello');
     var query_params = req.query;
     var sh = query_params['shop'];
     
-var dbCollectionShopDetail = require('../models/dbShopDetail.js');    
-dbCollectionShopDetail.find({},function(err, result) {
+    
+    
+var dbCollectionShopDetail = require('../models/dbShopDetail.js'); 
+
+ 
+    
+/*dbCollectionShopDetail.find({},function(err, result) {
         if (err) {
       console.log(err+ ' error');
     } else {
        console.log('result '+ result.length);
     }
-    });    
+    });  */  
 
 
 
@@ -64,7 +69,7 @@ dbCollectionShopDetail.find({},function(err, result) {
 
     //process.exit();
 
-    /*
+    
     if (!Shopify.is_valid_signature(query_params,true)) {
         return callback(new Error("Signature is not authentic!"));
     }
@@ -80,7 +85,15 @@ dbCollectionShopDetail.find({},function(err, result) {
         if(err) {
             return console.log(err);
         }
+        
+        var doc = new dbCollectionShopDetail ({
+          shop: shop,
+          token: data.access_token
+        });
+        // Saving it to the database.
+        doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
         res.send(util.inspect(data));
+        
     });*/
 
 
