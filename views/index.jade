@@ -31,4 +31,11 @@ block content
     p Enter Price:
     input(type="text",name="price", id="idRecurringChargePrice")
     br
-    input(type="submit", value="Create Recurring Charge")       
+    input(type="submit", value="Create Recurring Charge")     
+  br
+  br
+  form(name="deleteRecurringChargeForm", action="/shopify/deleteRecurringCharge", method="post")
+    p Enter Id of Recurring Charge u want to delete
+    input(type="text",name="deleteId", id="idDeleteRecurringCharge")
+    br
+    input(type="submit", value="delete Recurring Charge")    
