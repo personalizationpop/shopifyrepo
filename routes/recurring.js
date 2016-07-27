@@ -8,4 +8,9 @@ router.get('/', function(req, res, next) {
   res.send('i am in recurring');
 });
 
+router.get('/submit', function(req, res, next) {
+  console.log(req.body.plan1);
+  res.send('Form Submitted');
+});
+
 module.exports = router;
