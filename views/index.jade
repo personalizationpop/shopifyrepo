@@ -10,11 +10,9 @@ block content
     input(type="submit", value="create plan")
     br
     br
-  form(name="charging", action="/recurring/createProduct", method="post")
-    p Name
-    input(type="text",name="productName", id="idProductName")
-    p Desc
-    input(type="text",name="productDesc", id="idProductDesc")
+  form(name="charging", action="/shopify/createProduct", method="post")
+    p Title
+    input(type="text",name="title", id="idProductTitle")
     br
     input(type="submit", value="create product")  
     
