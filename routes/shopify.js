@@ -50,6 +50,7 @@ shopifyRouter.post('/deleteProduct',function(req,res,next){
             console.log('token:' + token);
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.post('/admin/products/'+req.body.deleteId+'.json',function(err,result,header){
+                console.log('deletResult :' + result);
                 res.send(JSON.stringify(result,undefined,2));
             });
         });
