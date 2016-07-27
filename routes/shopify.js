@@ -47,22 +47,7 @@ shopifyRouter.post('/createProduct',function(req,res,next){
     
     var postData = {
   product: {
-    title: req.body.title,
-    body_html: '<strong>Good snowboard!</strong>',
-    vendor: 'Burton',
-    product_type: 'Snowboard',
-    variants: [
-      {
-        option1: 'First',
-        price: '10.00',
-        sku: 123
-      },
-      {
-        option1: 'Second',
-        price: '20.00',
-        sku: '123'
-      }
-    ]
+    title: req.body.title
   }
 };
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
