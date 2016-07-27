@@ -74,6 +74,7 @@ shopifyRouter.post('/createProduct',function(req,res,next){
     title: req.body.title
   }
 };
+    console.log('req.body.title '+ req.body.title);
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
     {
         getShopToken(shopifyRouter.shop,function(token){
