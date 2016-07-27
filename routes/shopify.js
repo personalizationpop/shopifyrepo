@@ -21,12 +21,12 @@ shopifyRouter.config = {
 
 };
 
-var Shopify = new shopifyAPI(shopifyRouter.config);
+
 
 
 /* GET users listing. */
 shopifyRouter.get('/', function(req, res, next) {
-
+    var Shopify = new shopifyAPI(shopifyRouter.config);
     var auth_url = Shopify.buildAuthURL();
 
 // Assuming you are using the express framework
@@ -35,11 +35,24 @@ shopifyRouter.get('/', function(req, res, next) {
 
 });
 
+shopifyRouter.get('/getProducts', function(req, res, next) {
+    
+    dbCollectionShopDetail.find({shop:shopifyRouter.shop},function(err, result) {
+        shopifyRouter.config['access_token'] = result[0].get("shop"); 
+        console.log('config :' + shopifyRouter.config);
+        var Shopify = new shopifyAPI(shopifyRouter.config);
+        Shopify.get('/admin/products.json',function(err,data,header){
+            console.log(data);
+        });
+    });
+
+});
+
 
 shopifyRouter.get('/finish_auth',function (req,res,next) {
 
-    //var Shopify = new shopifyAPI(config), // You need to pass in your config here
-    
+
+    var Shopify = new shopifyAPI(shopifyRouter.config);
     var query_params = req.query;
     var clientStore = query_params['shop'];
 
