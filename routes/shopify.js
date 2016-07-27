@@ -29,9 +29,9 @@ function getShopToken(shop,callback){
         });
 }
 
-function addRecurringChargeDetailInDb(shop,response,callback){
+//function addRecurringChargeDetailInDb(shop,response,callback){
     //add Response to Db
-}
+//}
 
 
 /* Auth Process. */
@@ -84,7 +84,7 @@ shopifyRouter.post('/createRecurringCharge',function(req, res, next){
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
                 console.log('recuringChargeId :' + result.id);
-                console.log('result['recurring_application_charge'].id :' + result['recurring_application_charge'].id);
+                console.log("result['recurring_application_charge'].id :" + result['recurring_application_charge'].id);
                 res.send(JSON.stringify(result,undefined,2));
                 //res.redirect('./getProducts');
             });
