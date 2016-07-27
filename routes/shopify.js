@@ -46,7 +46,7 @@ shopifyRouter.get('/', function(req, res, next) {
 shopifyRouter.post('/deleteProduct',function(req,res,next){
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
     {
-        getShopToken(shopifyRouter.shop,function(err,token){
+        getShopToken(shopifyRouter.shop,function(token){
             console.log('token:' + token);
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.post('/admin/products/'+req.body.deleteId,function(err,result,header){
@@ -73,7 +73,7 @@ shopifyRouter.post('/createProduct',function(req,res,next){
 };
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
     {
-        getShopToken(shopifyRouter.shop,function(err,token){
+        getShopToken(shopifyRouter.shop,function(token){
             console.log('token:' + token);
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.post('/admin/products.json',postData,function(err,result,header){
@@ -94,7 +94,7 @@ shopifyRouter.get('/getProducts', function(req, res, next) {
     
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
     {
-        getShopToken(shopifyRouter.shop,function(err,token){
+        getShopToken(shopifyRouter.shop,function(token){
             console.log('token:' + token);
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.get('/admin/products.json',function(err,result,header){
