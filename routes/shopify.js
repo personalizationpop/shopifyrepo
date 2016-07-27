@@ -30,9 +30,7 @@ function getShopToken(shop,callback){
 }
 
 
-
-
-/* GET users listing. */
+/* Auth Process. */
 shopifyRouter.get('/', function(req, res, next) {
     var Shopify = new shopifyAPI(shopifyRouter.config);
     var auth_url = Shopify.buildAuthURL();
@@ -41,6 +39,40 @@ shopifyRouter.get('/', function(req, res, next) {
 // you can redirect the user automatically like so
     res.redirect(auth_url);
 
+});
+
+shopifyRouter.post('/createRecurringCharge',function(req, res, next){
+    
+    var name = req.body.name;
+    var price = req.body.price;
+    var returnUrl = req.body.returnUrl;
+    
+    var postData = {};
+    postData["name"] = req.body.name;
+    postData["price"] = req.body.price;
+    postData["return_url"] = req.body.returnUrl;
+    postData["test"] = true;
+
+    if(typeof shopifyRouter.config['access_token'] == 'undefined')
+    {
+        getShopToken(shopifyRouter.shop,function(token){
+            console.log('token:' + token);
+            var Shopify = new shopifyAPI(shopifyRouter.config);
+            Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
+                console.log('recuringChargeResult :' + result);
+                res.send(JSON.stringify(result,undefined,2));
+                //res.redirect('./getProducts');
+            });
+        });
+        
+    }else{
+        console.log("Already fetched token from db");
+        var Shopify = new shopifyAPI(shopifyRouter.config);
+            Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
+                res.send(JSON.stringify(result,undefined,2));
+                //res.redirect('./getProducts');
+            });
+    }
 });
 
 shopifyRouter.post('/deleteProduct',function(req,res,next){
