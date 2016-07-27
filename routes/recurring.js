@@ -14,23 +14,7 @@ router.post('/createPlan', function(req, res, next) {
   res.send('Form Submitted');
 });
 
-router.post('/createProduct', function(req, res, next) {
-  var shopifyApi = shopify.createApiCall();
-  res.send('Form Submitted');
-});
 
-router.get('/getProducts', function(req, res, next) {
-  var shopifyApi = shopify.createApiCall();
-  
-  shopifyApi.get('/admin/products.json',function(err,data,header){
-    if(err){
-      console.log(err);
-    }else{
-      res.send(JSON.stringify(data));
-    }
-  });
-  
-});
 
 
 module.exports = router;
