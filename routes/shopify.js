@@ -43,14 +43,10 @@ shopifyRouter.get('/', function(req, res, next) {
 
 shopifyRouter.post('/createRecurringCharge',function(req, res, next){
     
-    var name = req.body.name;
-    var price = req.body.price;
-    var returnUrl = req.body.returnUrl;
-    
     var postData = {};
     postData["name"] = req.body.name;
     postData["price"] = req.body.price;
-    postData["return_url"] = req.body.returnUrl;
+    postData["return_url"] = "https://herokushopifyapp.herokuapp.com/";
     postData["test"] = true;
 
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
