@@ -43,6 +43,27 @@ shopifyRouter.get('/', function(req, res, next) {
 
 });
 
+shopifyRouter.post('/deleteProduct',function(req,res,next){
+    if(typeof shopifyRouter.config['access_token'] == 'undefined')
+    {
+        getShopToken(shopifyRouter.shop,function(err,token){
+            console.log('token:' + token);
+            var Shopify = new shopifyAPI(shopifyRouter.config);
+            Shopify.post('/admin/products/'+req.body.deleteId,function(err,result,header){
+                res.send(JSON.stringify(result,undefined,2));
+            });
+        });
+        
+    }else{
+        console.log("Already fetched token from db");
+        var Shopify = new shopifyAPI(shopifyRouter.config);
+            Shopify.get('/admin/products/'+req.body.deleteId,function(err,result,header){
+                res.send(JSON.stringify(result,undefined,2));
+            });
+    }
+    
+});
+
 shopifyRouter.post('/createProduct',function(req,res,next){
     
     var postData = {
