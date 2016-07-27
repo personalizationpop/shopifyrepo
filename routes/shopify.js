@@ -49,7 +49,7 @@ shopifyRouter.get('/getProducts', function(req, res, next) {
         shopifyRouter.config['access_token'] = result[0].get("token"); 
     
         console.log('this.config.token :' + shopifyRouter.config['access_token']);
-        var Shopify = new shopifyAPI(config);
+        var Shopify = new shopifyAPI(shopifyRouter.config);
         Shopify.get('/admin/products.json',function(err,result,header){
             res.send(JSON.stringify(result,undefined,2));
         });
