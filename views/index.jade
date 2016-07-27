@@ -4,8 +4,13 @@ block content
   h1= title
   p Welcome #{title}
   h1 Choose Payment Plan
-  form(name="charging", action="/recurring", method="post")
-    input(type="checkbox",name="plan1", id="idPlan1")
+  form(name="charging", action="/recurring/createPlan", method="post")
+    input(type="checkbox",name="plan1", id="idPlan1") Plan
     input(type="submit", value="create plan")
+  
+  form(name="charging", action="/recurring/createProduct", method="post")
+    input(type="text",name="productName", id="idProductName")
+    input(type="text",name="productDesc", id="idProductDesc")
+    input(type="submit", value="create plan")  
     
       
