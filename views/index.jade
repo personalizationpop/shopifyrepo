@@ -22,4 +22,13 @@ block content
     input(type="text",name="deleteId", id="idDeleteProduct")
     br
     input(type="submit", value="delete product")    
-      
+    br
+    br
+  form(name="recurringChargeForm", action="/createRecurringCharge", method="post")
+    h2 Create New Recurring Charge
+    p Enter Recurring Charge Name:
+    input(type="text",name="name", id="idRecurringChargeName")
+    p Enter Price:
+    input(type="text",name="price", id="idRecurringChargePrice")
+    br
+    input(type="submit", value="Create Recurring Charge")       
