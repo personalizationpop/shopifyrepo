@@ -22,6 +22,11 @@ var config = {
 
 var Shopify = new shopifyAPI(config);
 
+shopifyRouter.createApiCall = function() {
+    var ShopifyApiCall = new shopifyAPI(config);
+    return ShopifyApiCall;
+  };
+
 /* GET users listing. */
 shopifyRouter.get('/', function(req, res, next) {
 
