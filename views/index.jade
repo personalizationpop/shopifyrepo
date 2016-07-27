@@ -6,13 +6,16 @@ block content
   h1 Choose Payment Plan
   form(name="charging", action="/recurring/createPlan", method="post")
     input(type="checkbox",name="plan1", id="idPlan1")
-    30 days plaan
+    p days plan
     input(type="submit", value="create plan")
     br
     br
   form(name="charging", action="/recurring/createProduct", method="post")
-    p Name input(type="text",name="productName", id="idProductName")
-    p Desc input(type="text",name="productDesc", id="idProductDesc")
+    p Name
+    input(type="text",name="productName", id="idProductName")
+    p Desc
+    input(type="text",name="productDesc", id="idProductDesc")
+    br
     input(type="submit", value="create product")  
     
       
