@@ -56,7 +56,7 @@ dbCollectionShopDetail.find({shop:shop},function(err, result) {
        console.log('result '+ result.length);
        
        
-       if(result.length){
+       if(result.length > 0){
            try{
                 console.log(" resultt[0]"+result[0].get("shop"));
            }catch(err){
