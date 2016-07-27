@@ -10,10 +10,16 @@ block content
     input(type="submit", value="create plan")
     br
     br
-  form(name="charging", action="/shopify/createProduct", method="post")
+  form(name="addProductForm", action="/shopify/createProduct", method="post")
     p Title
     input(type="text",name="title", id="idProductTitle")
     br
     input(type="submit", value="create product")  
-    
+    br
+    br
+  form(name="deleteProductForm", action="/shopify/deleteProduct", method="post")
+    p Title
+    input(type="text",name="deleteId", id="idDeleteProduct")
+    br
+    input(type="submit", value="delete product")    
       
