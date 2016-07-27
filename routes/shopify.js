@@ -42,7 +42,7 @@ shopifyRouter.get('/getProducts', function(req, res, next) {
         console.log('config :' + shopifyRouter.config);
         var Shopify = new shopifyAPI(shopifyRouter.config);
         Shopify.get('/admin/products.json',function(err,data,header){
-            console.log(data);
+            res.send(JSON.stringify(result,undefined,2));
         });
     });
 
@@ -69,8 +69,7 @@ dbCollectionShopDetail.find({shop:clientStore},function(err, result) {
            try{
                
                 console.log(" resultt[0]"+result[0].get("shop"));
-                var resJson = JSON.stringify(result,undefined,2);
-                res.send(resJson);
+                res.send(JSON.stringify(result,undefined,2));
            }catch(err){
                console.log(err);
            }
