@@ -5,27 +5,24 @@ var util = require('util');
 var dbCollectionShopDetail = require('../models/dbShopDetail.js'); 
 
 
-var shop = "sofizarstore.myshopify.com";
-var shopifyAppKey = "ff0c02ef99d9efe2f480e2e375a9b0c3";
-var shopifySecretKey = "544c5073917ec58c840ab62f69e377fd";
-var shopifyScope = "write_products,read_orders,write_orders,read_products";
-var redirectUri = "https://herokushopifyapp.herokuapp.com/shopify/finish_auth";
+shopifyRouter.shop = "sofizarstore.myshopify.com";
+shopifyRouter.shopifyAppKey = "ff0c02ef99d9efe2f480e2e375a9b0c3";
+shopifyRouter.shopifySecretKey = "544c5073917ec58c840ab62f69e377fd";
+shopifyRouter.shopifyScope = "write_products,read_orders,write_orders,read_products";
+shopifyRouter.redirectUri = "https://herokushopifyapp.herokuapp.com/shopify/finish_auth";
 
-var config = {
-    shop: shop, // MYSHOP.myshopify.com
-    shopify_api_key: shopifyAppKey, // Your API key
-    shopify_shared_secret: shopifySecretKey, // Your Shared Secret
-    shopify_scope: shopifyScope,
-    redirect_uri:redirectUri
+
+shopifyRouter.config = {
+    shop: shopifyRouter.shop, // MYSHOP.myshopify.com
+    shopify_api_key: shopifyRouter.shopifyAppKey, // Your API key
+    shopify_shared_secret: shopifyRouter.shopifySecretKey, // Your Shared Secret
+    shopify_scope: shopifyRouter.shopifyScope,
+    redirect_uri:shopifyRouter.redirectUri
 
 };
 
-var Shopify = new shopifyAPI(config);
+var Shopify = new shopifyAPI(shopifyRouter.config);
 
-shopifyRouter.createApiCall = function() {
-    var ShopifyApiCall = new shopifyAPI(config);
-    return ShopifyApiCall;
-  };
 
 /* GET users listing. */
 shopifyRouter.get('/', function(req, res, next) {
@@ -74,8 +71,8 @@ dbCollectionShopDetail.find({shop:clientStore},function(err, result) {
         
             var postDate =
             {
-                "client_id":shopifyAppKey,
-                "client_secret":shopifySecretKey,
+                "client_id":shopifyRouter.shopifyAppKey,
+                "client_secret":shopifyRouter.shopifySecretKey,
                 "code":query_params["code"]
             };
         
@@ -84,8 +81,11 @@ dbCollectionShopDetail.find({shop:clientStore},function(err, result) {
                     return console.log(err);
                 }
                 
+                ////// Get token
+                shopifyRouter.access_token = data.access_token;
+                
                 var doc = new dbCollectionShopDetail ({
-                  shop: shop,
+                  shop: shopifyRouter.shop,
                   token: data.access_token
                 });
                 // Saving it to the database.
@@ -94,7 +94,7 @@ dbCollectionShopDetail.find({shop:clientStore},function(err, result) {
                 
             });
                    
-               }
+            }
 
    
     }
