@@ -39,7 +39,9 @@ shopifyRouter.get('/getProducts', function(req, res, next) {
     
     dbCollectionShopDetail.find({shop:shopifyRouter.shop},function(err, result) {
         shopifyRouter.config['access_token'] = result[0].get("shop"); 
-        console.log('config :' + shopifyRouter.config);
+        console.log('config.shop :' + shopifyRouter.config.shop);
+        console.log('config.key :' + shopifyRouter.config.shopify_api_key);
+        console.log('config.token :' + shopifyRouter.config.access_token);
         var Shopify = new shopifyAPI(shopifyRouter.config);
         Shopify.get('/admin/products.json',function(err,result,header){
             res.send(JSON.stringify(result,undefined,2));
