@@ -38,11 +38,19 @@ shopifyRouter.get('/', function(req, res, next) {
 shopifyRouter.get('/getProducts', function(req, res, next) {
     
     dbCollectionShopDetail.find({shop:shopifyRouter.shop},function(err, result) {
-        shopifyRouter.config['access_token'] = result[0].get("shop"); 
-        console.log('config.shop :' + shopifyRouter.config.shop);
-        console.log('config.key :' + shopifyRouter.config.shopify_api_key);
-        console.log('config.token :' + shopifyRouter.config.access_token);
-        var Shopify = new shopifyAPI(shopifyRouter.config);
+        
+        var config = {};
+        config['access_token'] = result[0].get("shop");
+        config['shop'] = shopifyRouter.config.shop;
+        config['shopify_api_key'] = shopifyRouter.config.shopify_api_key;
+        config['shopify_shared_secret'] = shopifyRouter.config.shopify_shared_secret;
+        config['redirect_uri'] = shopifyRouter.config.redirect_uri;
+        config['access_token'] = result[0].get("token");
+        
+        this.shopifyRouter.config['access_token'] = result[0].get("token"); 
+    
+        console.log('this.config.token :' + this.shopifyRouter.config['access_token']);
+        var Shopify = new shopifyAPI(config);
         Shopify.get('/admin/products.json',function(err,result,header){
             res.send(JSON.stringify(result,undefined,2));
         });
