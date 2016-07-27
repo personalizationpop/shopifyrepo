@@ -51,7 +51,8 @@ shopifyRouter.post('/deleteProduct',function(req,res,next){
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.delete('/admin/products/'+req.body.deleteId+'.json',function(err,result,header){
                 console.log('deletResult :' + result);
-                res.send(JSON.stringify(result,undefined,2));
+                //res.send(JSON.stringify(result,undefined,2));
+                res.redirect('/shopify/getProducts');
             });
         });
         
@@ -59,7 +60,8 @@ shopifyRouter.post('/deleteProduct',function(req,res,next){
         console.log("Already fetched token from db");
         var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.delete('/admin/products/'+req.body.deleteId+'.json',function(err,result,header){
-                res.send(JSON.stringify(result,undefined,2));
+                //res.send(JSON.stringify(result,undefined,2));
+                res.redirect('/shopify/getProducts');
             });
     }
     
