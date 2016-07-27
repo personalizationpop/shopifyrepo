@@ -21,6 +21,14 @@ shopifyRouter.config = {
 
 };
 
+function getShopToken(shop,callback){
+    dbCollectionShopDetail.find({shop:shop},function(err, result) {
+            shopifyRouter.config['access_token'] = result[0].get("token"); 
+            console.log('this.config.token :' + shopifyRouter.config['access_token']);
+            callback(shopifyRouter.config['access_token'])
+        });
+}
+
 
 
 
@@ -40,16 +48,14 @@ shopifyRouter.get('/getProducts', function(req, res, next) {
     console.log('this.config.token-before :' + shopifyRouter.config['access_token']);
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
     {
-        dbCollectionShopDetail.find({shop:shopifyRouter.shop},function(err, result) {
-            
-            shopifyRouter.config['access_token'] = result[0].get("token"); 
-        
-            console.log('this.config.token :' + shopifyRouter.config['access_token']);
+        getShopToken(shopifyRouter.shop,function(err,token){
+            console.log('token:' + token);
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.get('/admin/products.json',function(err,result,header){
                 res.send(JSON.stringify(result,undefined,2));
             });
         });
+        
     }else{
         console.log("Already fetched token from db");
         var Shopify = new shopifyAPI(shopifyRouter.config);
@@ -63,11 +69,8 @@ shopifyRouter.get('/getOrders', function(req, res, next) {
      console.log('this.config.token-before :' + shopifyRouter.config['access_token']);
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
     {
-        dbCollectionShopDetail.find({shop:shopifyRouter.shop},function(err, result) {
-            
-            shopifyRouter.config['access_token'] = result[0].get("token"); 
-        
-            console.log('this.config.token :' + shopifyRouter.config['access_token']);
+        getShopToken(shopifyRouter.shop,function(err,token){
+            console.log('token:' + token);
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.get('/admin/orders.json',function(err,result,header){
                 res.send(JSON.stringify(result,undefined,2));
