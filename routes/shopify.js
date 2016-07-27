@@ -41,6 +41,30 @@ shopifyRouter.get('/', function(req, res, next) {
 
 });
 
+shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
+    if(typeof shopifyRouter.config['access_token'] == 'undefined')
+    {
+        getShopToken(shopifyRouter.shop,function(token){
+            console.log('token:' + token);
+            var Shopify = new shopifyAPI(shopifyRouter.config);
+            Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
+                console.log('deletResult :' + result);
+                //res.send(JSON.stringify(result,undefined,2));
+                res.redirect('./getProducts');
+            });
+        });
+        
+    }else{
+        console.log("Already fetched token from db");
+        var Shopify = new shopifyAPI(shopifyRouter.config);
+            Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
+                //res.send(JSON.stringify(result,undefined,2));
+                res.redirect('./getProducts');
+            });
+    }
+    
+});
+
 shopifyRouter.post('/createRecurringCharge',function(req, res, next){
     
     var postData = {};
