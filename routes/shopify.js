@@ -43,9 +43,49 @@ shopifyRouter.get('/', function(req, res, next) {
 
 });
 
+shopifyRouter.post('/createProduct',function(req,res,next){
+    
+    var postData = {
+  product: {
+    title: req.body.title,
+    body_html: '<strong>Good snowboard!</strong>',
+    vendor: 'Burton',
+    product_type: 'Snowboard',
+    variants: [
+      {
+        option1: 'First',
+        price: '10.00',
+        sku: 123
+      },
+      {
+        option1: 'Second',
+        price: '20.00',
+        sku: '123'
+      }
+    ]
+  }
+};
+    if(typeof shopifyRouter.config['access_token'] == 'undefined')
+    {
+        getShopToken(shopifyRouter.shop,function(err,token){
+            console.log('token:' + token);
+            var Shopify = new shopifyAPI(shopifyRouter.config);
+            Shopify.post('/admin/products.json',postData,function(err,result,header){
+                res.send(JSON.stringify(result,undefined,2));
+            });
+        });
+        
+    }else{
+        console.log("Already fetched token from db");
+        var Shopify = new shopifyAPI(shopifyRouter.config);
+            Shopify.get('/admin/products.json',postData,function(err,result,header){
+                res.send(JSON.stringify(result,undefined,2));
+            });
+    }
+});
+
 shopifyRouter.get('/getProducts', function(req, res, next) {
     
-    console.log('this.config.token-before :' + shopifyRouter.config['access_token']);
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
     {
         getShopToken(shopifyRouter.shop,function(err,token){
