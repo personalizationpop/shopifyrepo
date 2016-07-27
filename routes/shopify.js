@@ -37,14 +37,8 @@ shopifyRouter.get('/', function(req, res, next) {
 
 shopifyRouter.get('/getProducts', function(req, res, next) {
     
+    console.log('this.config.token-before :' + shopifyRouter.config['access_token']);
     dbCollectionShopDetail.find({shop:shopifyRouter.shop},function(err, result) {
-        
-        var config = {};
-        config['shop'] = shopifyRouter.config.shop;
-        config['shopify_api_key'] = shopifyRouter.config.shopify_api_key;
-        config['shopify_shared_secret'] = shopifyRouter.config.shopify_shared_secret;
-        config['redirect_uri'] = shopifyRouter.config.redirect_uri;
-        config['access_token'] = result[0].get("token");
         
         shopifyRouter.config['access_token'] = result[0].get("token"); 
     
