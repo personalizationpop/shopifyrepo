@@ -161,8 +161,8 @@ shopifyRouter.get('/getOrders', function(req, res, next) {
 
 shopifyRouter.get('/finish_auth',function (req,res,next) {
     
-    var query_params = req.query;
-    var clientStore = query_params['shop'];
+    //var query_params = req.query;
+    //var clientStore = query_params['shop'];
     ////// Check Db for Access Token
     getShopToken(shopifyRouter.shop,function(err,status,token){
         var Shopify = new shopifyAPI(shopifyRouter.config);  /// Now token is set in shopifyRouter.config['token']
@@ -198,6 +198,8 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                         //res.send(util.inspect(data));
                     
                     });
+                }else{
+                    res.send("App Already Installed to This Store ,Redirect it to app page ");
                 }
             }
     });  
