@@ -86,15 +86,16 @@ shopifyRouter.post('/createRecurringCharge',function(req, res, next){
             Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
                 
                 /////Insert response into db //////////
-                dbRecurringChargeDetail.insert(result,function(err,result){
-                    if(err)
-                    {
-                        console.log(err)
-                    }else
-                    {
-                        console.log(JSON.stringify(result))
-                    };
-                });
+                var recurringCharge = new dbRecurringChargeDetail(result);
+
+                //save model to MongoDB
+                recurringCharge.save(function (err) {
+                  if (err) {
+                		return err;
+                  }
+                  else {
+                  	console.log("Post saved");
+                  }
                 console.log('recuringChargeId :' + result.id);
                 console.log("result['recurring_application_charge'].id :" + result['recurring_application_charge'].id);
                 res.send(JSON.stringify(result,undefined,2));
