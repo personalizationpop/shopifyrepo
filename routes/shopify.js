@@ -72,11 +72,19 @@ shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
 
 shopifyRouter.post('/createRecurringCharge',function(req, res, next){
     
-    var postData = {};
-    postData["name"] = req.body.name;
-    postData["price"] = req.body.price;
-    postData["return_url"] = "https://herokushopifyapp.herokuapp.com/";
-    postData["test"] = true;
+    // var postData = {};
+    // postData["name"] = req.body.name;
+    // postData["price"] = req.body.price;
+    // postData["return_url"] = "https://herokushopifyapp.herokuapp.com/";
+    // postData["test"] = true;
+    var postData ={
+              "recurring_application_charge": {
+                "name": req.body.name,
+                "price": req.body.price,
+                "return_url": "https://herokushopifyapp.herokuapp.com",
+                "test": true
+              }
+        };
 
     if(typeof shopifyRouter.config['access_token'] == 'undefined')
     {
