@@ -268,7 +268,7 @@ dbCollectionShopDetail.find({shop:clientStore},function(err, result) {
                 });
                 // Saving it to the database.
                 doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
-                res.send(util.inspect(data));
+                //res.send(util.inspect(data));
                 
             });
                    
