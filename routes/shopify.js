@@ -19,11 +19,10 @@ shopifyRouter.config = {
     shopify_shared_secret: shopifyRouter.shopifySecretKey, // Your Shared Secret
     shopify_scope: shopifyRouter.shopifyScope,
     redirect_uri:shopifyRouter.redirectUri
-
 };
 
 function getShopToken(shop,callback){
-    dbRecurringChargeDetail.findOne( {shop:shop},function(err,result){
+    dbShopRecurringChargeDetail.findOne({shop:shop},function(err,result){
         if(result.length>0){
             console.log("find/create");
             shopifyRouter.shop = result.get("shop");
