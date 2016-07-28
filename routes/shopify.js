@@ -82,6 +82,7 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
     getShopToken(shopifyRouter.shop,function(err,status,token){
         if(err){ res.send("error while creating recurring charge"); }else{
             if(status == "found"){
+                console.log("found token");
                 var Shopify = new shopifyAPI(shopifyRouter.config);
                 Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
                     /////Insert response into db //////////
@@ -91,6 +92,7 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                     // });
                     
                     // find Update or Insert
+                    console.log(result['recurring_application_charge'].id);
                     result['shop'] = shopifyRouter.shop;
                     dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
                         console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
@@ -106,7 +108,7 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
 shopifyRouter.get('/activateRecurringCharge',function(req, res, next){
     
     //// Here we Activate Recurring Charge for the Shop
-    res.send("Call Activate");
+    res.send("Call Activate ,If Already Activate than move to Store Page");
 });
 
 shopifyRouter.post('/deleteProduct',function(req,res,next){
@@ -209,7 +211,8 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                     
                     });
                 }else{
-                    res.send("App Already Installed to This Store ,Redirect it to app page ");
+                    console.log("App Already Installed,Now we redirect to createRecurringCharge  ");
+                    res.redirect('./createRecurringCharge');
                 }
             }
     });  
