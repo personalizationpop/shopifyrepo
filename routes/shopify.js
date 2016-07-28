@@ -54,8 +54,9 @@ shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
                 var Shopify = new shopifyAPI(shopifyRouter.config);
                 console.log(token);
                 Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
-                    //res.send(JSON.stringify(result,undefined,2));
-                    res.redirect('./getProducts');
+                    if(err){console.log(err)}else{
+                        res.send(JSON.stringify(result,undefined,2));
+                    }
                 });
            }
         }
