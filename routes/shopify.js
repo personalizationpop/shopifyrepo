@@ -22,7 +22,7 @@ shopifyRouter.config = {
 };
 
 function getShopToken(shop,callback){
-    dbShopRecurringChargeDetail.findOne({shop:shop},function(err,result){
+    dbCollectionShopDetail.findOne({shop:shop},function(err,result){
         if(result.length>0){
             console.log("find/create");
             shopifyRouter.shop = result.get("shop");
@@ -47,17 +47,16 @@ shopifyRouter.get('/', function(req, res, next) {
 });
 
 shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
-        getShopToken(shopifyRouter.shop,function(err,status,token){
-            if(err){ res.send("error while deleting resurring charge"); }else{
-               if(status == "found"){
-                    var Shopify = new shopifyAPI(shopifyRouter.config);
-                    Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
-                        //res.send(JSON.stringify(result,undefined,2));
-                        res.redirect('./getProducts');
-                    }
-               }
-            }
-        });
+    getShopToken(shopifyRouter.shop,function(err,status,token){
+        if(err){ res.send("error while deleting resurring charge"); }else{
+           if(status == "found"){
+                var Shopify = new shopifyAPI(shopifyRouter.config);
+                Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
+                    //res.send(JSON.stringify(result,undefined,2));
+                    res.redirect('./getProducts');
+                });
+           }
+        }
     });
 });
 
