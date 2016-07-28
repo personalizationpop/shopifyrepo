@@ -88,7 +88,6 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                     };
                 console.log("found token");
                 res.send(shopifyRouter.config);
-                process.exit();
                 var Shopify = new shopifyAPI(shopifyRouter.config);
                 Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
                     /////Insert response into db //////////
