@@ -25,7 +25,7 @@ function getShopToken(shop,callback){
     console.log("shop :"+ shop);
     dbCollectionShopDetail.find({shop:shop},function(err,result){
         if(result.length>0){
-            console.log("found Store" + "shop:"+ result[0].get("shop")+ "token:"+ result[0].get("token"));
+            //console.log("found Store" + "shop:"+ result[0].get("shop")+ "token:"+ result[0].get("token"));
             shopifyRouter.shop = result[0].get("shop");
             shopifyRouter.config['access_token'] = result[0].get("token");
             callback(err,"found",result[0].get("token"));
@@ -70,7 +70,6 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
     //var name = req.body.name,price =req.body.price;
 
     /////// Assign a Recurring Charge to a Store ///////
-    
         
     getShopToken(shopifyRouter.shop,function(err,status,token){
         if(err){ res.send("error while creating recurring charge"); }else{
@@ -97,13 +96,14 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                     // });
                     
                     // find Update or Insert
-                    console.log(result['recurring_application_charge'].id);
-                    result['shop'] = shopifyRouter.shop;
-                    dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
-                        console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
-                        //res.send(JSON.stringify(result,undefined,2));
-                        res.redirect(doc['recurring_application_charge'].confirmation_url);
-                    });
+                    res.send(err);
+                    // console.log(result['recurring_application_charge'].id);
+                    // result['shop'] = shopifyRouter.shop;
+                    // dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
+                    //     console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
+                    //     //res.send(JSON.stringify(result,undefined,2));
+                    //     res.redirect(doc['recurring_application_charge'].confirmation_url);
+                    // });
                 });
             }
         }
