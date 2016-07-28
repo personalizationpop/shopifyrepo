@@ -235,7 +235,8 @@ dbCollectionShopDetail.find({shop:clientStore},function(err, result) {
            try{
                
                 console.log(" resultt[0]"+result[0].get("shop"));
-                res.send(JSON.stringify(result,undefined,2));
+                
+                //res.send(JSON.stringify(result,undefined,2));
            }catch(err){
                console.log(err);
            }
