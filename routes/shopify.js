@@ -2,7 +2,8 @@ var express = require('express');
 var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
 var util = require('util');
-var dbCollectionShopDetail = require('../models/dbShopDetail.js'); 
+var dbCollectionShopDetail = require('../models/dbShopDetail.js');
+var dbRecurringChargeDetail = require('../models/dbRecurringChargeDetail.js');
 
 
 shopifyRouter.shop = "sofizarstore.myshopify.com";
@@ -83,6 +84,17 @@ shopifyRouter.post('/createRecurringCharge',function(req, res, next){
             console.log('token:' + token);
             var Shopify = new shopifyAPI(shopifyRouter.config);
             Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
+                
+                /////Insert response into db //////////
+                dbRecurringChargeDetail.insert(result,function(err,result){
+                    if(err)
+                    {
+                        console.log(err)
+                    }else
+                    {
+                        console.log(JSON.stringify(result))
+                    };
+                });
                 console.log('recuringChargeId :' + result.id);
                 console.log("result['recurring_application_charge'].id :" + result['recurring_application_charge'].id);
                 res.send(JSON.stringify(result,undefined,2));
