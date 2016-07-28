@@ -22,18 +22,21 @@ shopifyRouter.config = {
 
 };
 
+//dbRecurringChargeDetail.findOneAndUpdate( {shop:shop} , {shop:shop,token:shopifyRouter.config['access_token']} , {upsert:true,new:true},function(err,result){
+    
 function getShopToken(shop,callback){
-    dbCollectionShopDetail.find({shop:shop},function(err, result) {
-            shopifyRouter.config['access_token'] = result[0].get("token"); 
-            console.log('this.config.token :' + shopifyRouter.config['access_token']);
-            callback(shopifyRouter.config['access_token'])
-        });
+    dbRecurringChargeDetail.findOne( {shop:shop},function(err,result){
+        if(result.length>0){
+            console.log("find/create");
+            shopifyRouter.config['shop'] = result.get("shop");
+            shopifyRouter.config['access_token'] = result.get("token");
+            callback(err,"found",shopifyRouter.config['access_token']);
+        }else{
+            console.log("nothing");
+            callback(err,"not found","");
+        }
+    });
 }
-
-//function addRecurringChargeDetailInDb(shop,response,callback){
-    //add Response to Db
-//}
-
 
 /* Auth Process. */
 shopifyRouter.get('/', function(req, res, next) {
@@ -47,36 +50,21 @@ shopifyRouter.get('/', function(req, res, next) {
 });
 
 shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
-    if(typeof shopifyRouter.config['access_token'] == 'undefined')
-    {
-        getShopToken(shopifyRouter.shop,function(token){
-            console.log('token:' + token);
-            var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
-                console.log('deletResult :' + result);
-                //res.send(JSON.stringify(result,undefined,2));
-                res.redirect('./getProducts');
-            });
+        getShopToken(shopifyRouter.shop,function(err,status,token){
+            if(err){ res.send("error while deleting resurring charge"); }else{
+               if(status == "found"){
+                    var Shopify = new shopifyAPI(shopifyRouter.config);
+                    Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
+                        //res.send(JSON.stringify(result,undefined,2));
+                        res.redirect('./getProducts');
+                    }
+               }
+            }
         });
-        
-    }else{
-        console.log("Already fetched token from db");
-        var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
-                //res.send(JSON.stringify(result,undefined,2));
-                res.redirect('./getProducts');
-            });
-    }
-    
+    });
 });
 
 shopifyRouter.post('/createRecurringCharge',function(req, res, next){
-    
-    // var postData = {};
-    // postData["name"] = req.body.name;
-    // postData["price"] = req.body.price;
-    // postData["return_url"] = "https://herokushopifyapp.herokuapp.com/";
-    // postData["test"] = true;
     var postData ={
               "recurring_application_charge": {
                 "name": req.body.name,
@@ -85,202 +73,134 @@ shopifyRouter.post('/createRecurringCharge',function(req, res, next){
                 "test": true
               }
         };
-
-    if(typeof shopifyRouter.config['access_token'] == 'undefined')
-    {
-        getShopToken(shopifyRouter.shop,function(token){
-            console.log('token:' + token);
-            var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
-                
-                /////Insert response into db //////////
-                var recurringCharge = new dbRecurringChargeDetail(result);
-
-                //save model to MongoDB
-                recurringCharge.save(function (err) {
-                  if (err) {
-                		return err;
-                  }
-                  else {
-                  	console.log("New Recurring Charge Saved");
-                  }
-                });
-                console.log("result['recurring_application_charge'].id :" + result['recurring_application_charge'].id);
-                res.send(JSON.stringify(result,undefined,2));
-                //res.redirect('./getProducts');
-            });
-        });
         
-    }else{
-        console.log("Already fetched token from db");
-        var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
-                res.send(JSON.stringify(result,undefined,2));
-                //res.redirect('./getProducts');
-            });
-    }
+    getShopToken(shopifyRouter.shop,function(err,status,token){
+        if(err){ res.send("error while creating recurring charge"); }else{
+            if(status == "found"){
+                var Shopify = new shopifyAPI(shopifyRouter.config);
+                Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
+                    /////Insert response into db //////////
+                    var recurringCharge = new dbRecurringChargeDetail(result);
+                    //save model to MongoDB
+                    recurringCharge.save(function (err) {
+                      if (err) {
+                    		console.log(err);
+                      }
+                      else {
+                      	console.log("New Recurring Charge Saved");
+                      }
+                    });
+                    console.log("result['recurring_application_charge'].id :" + result['recurring_application_charge'].id);
+                    res.send(JSON.stringify(result,undefined,2));
+                    //res.redirect('./getProducts');
+                });
+            }
+        }
+    });
 });
 
 shopifyRouter.post('/deleteProduct',function(req,res,next){
-    if(typeof shopifyRouter.config['access_token'] == 'undefined')
-    {
-        getShopToken(shopifyRouter.shop,function(token){
-            console.log('token:' + token);
-            var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.delete('/admin/products/'+req.body.deleteId+'.json',function(err,result,header){
-                console.log('deletResult :' + result);
-                //res.send(JSON.stringify(result,undefined,2));
-                res.redirect('./getProducts');
-            });
-        });
-        
-    }else{
-        console.log("Already fetched token from db");
-        var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.delete('/admin/products/'+req.body.deleteId+'.json',function(err,result,header){
-                //res.send(JSON.stringify(result,undefined,2));
-                res.redirect('./getProducts');
-            });
-    }
-    
+    getShopToken(shopifyRouter.shop,function(err,status,token){
+        if(err){ res.send("error while deleting product"); }else{
+            if(status == "found"){
+                var Shopify = new shopifyAPI(shopifyRouter.config);
+                Shopify.delete('/admin/products/'+req.body.deleteId+'.json',function(err,result,header){
+                    console.log('deletResult :' + result);
+                    //res.send(JSON.stringify(result,undefined,2));
+                    res.redirect('./getProducts');
+                });
+            }
+        }
+    });
 });
 
 shopifyRouter.post('/createProduct',function(req,res,next){
     
     var postData = {
-  product: {
-    title: req.body.title
-  }
-};
-    console.log('req.body.title '+ req.body.title);
-    if(typeof shopifyRouter.config['access_token'] == 'undefined')
-    {
-        getShopToken(shopifyRouter.shop,function(token){
-            console.log('token:' + token);
-            var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.post('/admin/products.json',postData,function(err,result,header){
-                res.send(JSON.stringify(result,undefined,2));
-            });
-        });
-        
-    }else{
-        console.log("Already fetched token from db");
-        var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.post('/admin/products.json',postData,function(err,result,header){
-                res.send(JSON.stringify(result,undefined,2));
-            });
-    }
+        product: {
+            title: req.body.title
+        }
+    };
+    getShopToken(shopifyRouter.shop,function(err,status,token){
+        if(err){ res.send("error while creating product"); }else{
+            if(status == "found"){
+                var Shopify = new shopifyAPI(shopifyRouter.config);
+                Shopify.post('/admin/products.json',postData,function(err,result,header){
+                    res.send(JSON.stringify(result,undefined,2));
+                });
+            }
+        }
+    });
 });
 
 shopifyRouter.get('/getProducts', function(req, res, next) {
-    
-    if(typeof shopifyRouter.config['access_token'] == 'undefined')
-    {
-        getShopToken(shopifyRouter.shop,function(token){
-            console.log('token:' + token);
-            var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.get('/admin/products.json',function(err,result,header){
-                res.send(JSON.stringify(result,undefined,2));
-            });
-        });
-        
-    }else{
-        console.log("Already fetched token from db");
-        var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.get('/admin/products.json',function(err,result,header){
-                res.send(JSON.stringify(result,undefined,2));
-            });
-    }
+    getShopToken(shopifyRouter.shop,function(err,status,token){
+        if(err){ res.send("error while get Products"); }else{
+            if(status == "found"){
+                var Shopify = new shopifyAPI(shopifyRouter.config);
+                Shopify.get('/admin/products.json',function(err,result,header){
+                    res.send(JSON.stringify(result,undefined,2));
+                });
+            }
+        }
+    });
 });
 
 shopifyRouter.get('/getOrders', function(req, res, next) {
-     console.log('this.config.token-before :' + shopifyRouter.config['access_token']);
-    if(typeof shopifyRouter.config['access_token'] == 'undefined')
-    {
-        getShopToken(shopifyRouter.shop,function(err,token){
-            console.log('token:' + token);
-            var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.get('/admin/orders.json',function(err,result,header){
-                res.send(JSON.stringify(result,undefined,2));
-            });
-        });
-    }else{
-        console.log("Already fetched token from db");
-        var Shopify = new shopifyAPI(shopifyRouter.config);
-            Shopify.get('/admin/orders.json',function(err,result,header){
-                res.send(JSON.stringify(result,undefined,2));
-            });
-    }
+    getShopToken(shopifyRouter.shop,function(err,token){
+        if(err){ res.send("error while getting Orders"); }else{
+            if(status == "found"){
+                var Shopify = new shopifyAPI(shopifyRouter.config);
+                Shopify.get('/admin/orders.json',function(err,result,header){
+                    res.send(JSON.stringify(result,undefined,2));
+                });
+            }
+        }
+    });
 });
 
-
-
 shopifyRouter.get('/finish_auth',function (req,res,next) {
-
-
-    var Shopify = new shopifyAPI(shopifyRouter.config);
+    
     var query_params = req.query;
     var clientStore = query_params['shop'];
-
- 
     ////// Check Db for Access Token
-dbCollectionShopDetail.find({shop:clientStore},function(err, result) {
+    getShopToken(shopifyRouter.shop,function(err,status,token){
+        var Shopify = new shopifyAPI(shopifyRouter.config);  /// Now token is set in shopifyRouter.config['token']
         if (err) {
-      console.log(err+ ' error');
-    } else {
-       console.log('result '+ result.length);
-       
-       
-       if(result.length >0 && clientStore==result[0].get("shop")){
-           try{
-               
-                console.log(" resultt[0]"+result[0].get("shop"));
-                
-                //res.send(JSON.stringify(result,undefined,2));
-           }catch(err){
-               console.log(err);
-           }
-           
-       }else{
-           
-            
-            if (!Shopify.is_valid_signature(query_params,true)) {
-                return callback(new Error("Signature is not authentic!"));
-            }
-        
-            var postDate =
-            {
-                "client_id":shopifyRouter.shopifyAppKey,
-                "client_secret":shopifyRouter.shopifySecretKey,
-                "code":query_params["code"]
-            };
-        
-            Shopify.post('/admin/oauth/access_token', postDate, function(err, data) {
-                if(err) {
-                    return console.log(err);
+            console.log(' error'+err);
+        } else {
+            if(status == "not found"){
+                if (!Shopify.is_valid_signature(query_params,true)) {
+                    callback("Signature is not authentic!","");
                 }
-                
-                ////// Get token
-                shopifyRouter.access_token = data.access_token;
-                
-                var doc = new dbCollectionShopDetail ({
-                  shop: shopifyRouter.shop,
-                  token: data.access_token
-                });
-                // Saving it to the database.
-                doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
-                //res.send(util.inspect(data));
-                
-            });
-                   
+                var postDate =
+                    {
+                        "client_id":shopifyRouter.shopifyAppKey,
+                        "client_secret":shopifyRouter.shopifySecretKey,
+                        "code":query_params["code"]
+                    }; 
+
+                    Shopify.post('/admin/oauth/access_token', postDate, function(err, data) {
+                        if(err) {
+                            return console.log(err);
+                        }
+                    
+                        ////// Set token
+                        shopifyRouter.config['access_token'] = data.access_token;
+                        
+                        //// insert into Db ///////
+                        var doc = new dbCollectionShopDetail ({
+                          shop: shopifyRouter.shop,
+                          token: data.access_token
+                        });
+                        // Saving it to the database.
+                        doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
+                        //res.send(util.inspect(data));
+                    
+                    });
+                }
             }
-
-   
-    }
     });  
-
-
-
 
     //var monkey = require('node-monkey');
     //monkey.attachConsole();
