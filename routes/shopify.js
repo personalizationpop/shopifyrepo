@@ -22,9 +22,10 @@ shopifyRouter.config = {
 };
 
 function getShopToken(shop,callback){
+    console.log("shop :"+ shop);
     dbCollectionShopDetail.findOne({shop:shop},function(err,result){
         if(result.length>0){
-            console.log("find/create");
+            console.log("found Store");
             shopifyRouter.shop = result.get("shop");
             shopifyRouter.config['access_token'] = result.get("token");
             callback(err,"found",shopifyRouter.config['access_token']);
