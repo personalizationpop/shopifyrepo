@@ -28,7 +28,7 @@ function getShopToken(shop,callback){
             console.log("found Store");
             shopifyRouter.shop = result[0].get("shop");
             shopifyRouter.config['access_token'] = result[0].get("token");
-            callback(err,"found",shopifyRouter.config['access_token']);
+            callback(err,"found",result[0].get("token"));
         }else{
             console.log("nothing");
             callback(err,"not found","");
@@ -52,6 +52,7 @@ shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
         if(err){ res.send("error while deleting resurring charge"); }else{
            if(status == "found"){
                 var Shopify = new shopifyAPI(shopifyRouter.config);
+                console.log(token);
                 Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
                     //res.send(JSON.stringify(result,undefined,2));
                     res.redirect('./getProducts');
