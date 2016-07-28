@@ -25,7 +25,7 @@ function getShopToken(shop,callback){
     console.log("shop :"+ shop);
     dbCollectionShopDetail.find({shop:shop},function(err,result){
         if(result.length>0){
-            console.log("found Store");
+            console.log("found Store" + "shop:"+ result[0].get("shop")+ "token:"+ result[0].get("token"));
             shopifyRouter.shop = result[0].get("shop");
             shopifyRouter.config['access_token'] = result[0].get("token");
             callback(err,"found",result[0].get("token"));
