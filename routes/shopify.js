@@ -49,10 +49,12 @@ shopifyRouter.get('/', function(req, res, next) {
 
 shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
     getShopToken(shopifyRouter.shop,function(err,status,token){
+        console.log("err : "+ util.inspect(err));
+        console.log("status : "+ util.inspect(status));
+        console.log("token : "+ util.inspect(token));
         if(err){ res.send("error while deleting resurring charge"); }else{
            if(status == "found"){
                 var Shopify = new shopifyAPI(shopifyRouter.config);
-                console.log(token);
                 Shopify.delete('/admin/recurring_application_charges/'+req.body.deleteId+'.json',function(err,result,header){
                     if(err){console.log(err)}else{
                         res.send(JSON.stringify(result,undefined,2));
