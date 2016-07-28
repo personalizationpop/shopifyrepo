@@ -96,6 +96,7 @@ shopifyRouter.post('/createRecurringCharge',function(req, res, next){
                   else {
                   	console.log("Post saved");
                   }
+                });
                 console.log('recuringChargeId :' + result.id);
                 console.log("result['recurring_application_charge'].id :" + result['recurring_application_charge'].id);
                 res.send(JSON.stringify(result,undefined,2));
