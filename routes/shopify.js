@@ -23,11 +23,11 @@ shopifyRouter.config = {
 
 function getShopToken(shop,callback){
     console.log("shop :"+ shop);
-    dbCollectionShopDetail.findOne({shop:shop},function(err,result){
+    dbCollectionShopDetail.find({shop:shop},function(err,result){
         if(result.length>0){
             console.log("found Store");
-            shopifyRouter.shop = result.get("shop");
-            shopifyRouter.config['access_token'] = result.get("token");
+            shopifyRouter.shop = result[0].get("shop");
+            shopifyRouter.config['access_token'] = result[0].get("token");
             callback(err,"found",shopifyRouter.config['access_token']);
         }else{
             console.log("nothing");
