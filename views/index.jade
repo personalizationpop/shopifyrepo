@@ -4,12 +4,6 @@ block content
   h1= title
   p Welcome #{title}
   h1 Choose Payment Plan
-  form(name="charging", action="/recurring/createPlan", method="post")
-    input(type="checkbox",name="plan1", id="idPlan1")
-    p days plan
-    input(type="submit", value="create plan")
-    br
-    br
   form(name="addProductForm", action="/shopify/createProduct", method="post")
     p Title
     input(type="text",name="title", id="idProductTitle")
@@ -24,7 +18,7 @@ block content
     input(type="submit", value="delete product")    
     br
     br
-  form(name="recurringChargeForm", action="/createRecurringCharge", method="post")
+  form(name="recurringChargeForm", action="/shopify/createRecurringCharge", method="post")
     h2 Create New Recurring Charge
     p Enter Recurring Charge Name:
     input(type="text",name="name", id="idRecurringChargeName")
