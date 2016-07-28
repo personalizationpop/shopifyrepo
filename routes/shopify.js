@@ -68,23 +68,25 @@ shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
 shopifyRouter.get('/createRecurringCharge',function(req, res, next){
     ///// When No REcurring Charge is Available
     //var name = req.body.name,price =req.body.price;
-    var name = "Sofizar Plan";
-    var price = "100";
-    ////// Here We Write the logic that which plan we want to assign this Store /////////////
-    var postData ={
-              "recurring_application_charge": {
-                "name": name,
-                "price": price,
-                "return_url": "https://herokushopifyapp.herokuapp.com/shopify/activateRecurringCharge",
-                "test": true
-              }
-        };
+
     /////// Assign a Recurring Charge to a Store ///////
     
         
     getShopToken(shopifyRouter.shop,function(err,status,token){
         if(err){ res.send("error while creating recurring charge"); }else{
             if(status == "found"){
+                
+                var name = "Sofizar Plan";
+                var price = "100";
+                ////// Here We Write the logic that which plan we want to assign this Store /////////////
+                var postData ={
+                          "recurring_application_charge": {
+                            "name": name,
+                            "price": price,
+                            "return_url": "https://herokushopifyapp.herokuapp.com/shopify/activateRecurringCharge",
+                            "test": true
+                          }
+                    };
                 console.log("found token");
                 var Shopify = new shopifyAPI(shopifyRouter.config);
                 Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
