@@ -3,7 +3,7 @@ var shopifyRouter = express.Router();
 var shopifyAPI = require('shopify-node-api');
 var util = require('util');
 var dbCollectionShopDetail = require('../models/dbShopDetail.js');
-var dbRecurringChargeDetail = require('../models/dbRecurringChargeDetail.js');
+var dbShopRecurringChargeDetail = require('../models/dbRecurringChargeDetail.js');
 
 
 shopifyRouter.shop = "sofizarstore.myshopify.com";
@@ -22,13 +22,11 @@ shopifyRouter.config = {
 
 };
 
-//dbRecurringChargeDetail.findOneAndUpdate( {shop:shop} , {shop:shop,token:shopifyRouter.config['access_token']} , {upsert:true,new:true},function(err,result){
-    
 function getShopToken(shop,callback){
     dbRecurringChargeDetail.findOne( {shop:shop},function(err,result){
         if(result.length>0){
             console.log("find/create");
-            shopifyRouter.config['shop'] = result.get("shop");
+            shopifyRouter.shop = result.get("shop");
             shopifyRouter.config['access_token'] = result.get("token");
             callback(err,"found",shopifyRouter.config['access_token']);
         }else{
@@ -64,15 +62,22 @@ shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
     });
 });
 
-shopifyRouter.post('/createRecurringCharge',function(req, res, next){
+shopifyRouter.get('/createRecurringCharge',function(req, res, next){
+    ///// When No REcurring Charge is Available
+    //var name = req.body.name,price =req.body.price;
+    var name = "Sofizar Plan";
+    var price = "100";
+    ////// Here We Write the logic that which plan we want to assign this Store /////////////
     var postData ={
               "recurring_application_charge": {
-                "name": req.body.name,
-                "price": req.body.price,
-                "return_url": "https://herokushopifyapp.herokuapp.com",
+                "name": name,
+                "price": price,
+                "return_url": "https://herokushopifyapp.herokuapp.com/shopify/activateRecurringCharge",
                 "test": true
               }
         };
+    /////// Assign a Recurring Charge to a Store ///////
+    
         
     getShopToken(shopifyRouter.shop,function(err,status,token){
         if(err){ res.send("error while creating recurring charge"); }else{
@@ -80,23 +85,28 @@ shopifyRouter.post('/createRecurringCharge',function(req, res, next){
                 var Shopify = new shopifyAPI(shopifyRouter.config);
                 Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
                     /////Insert response into db //////////
-                    var recurringCharge = new dbRecurringChargeDetail(result);
-                    //save model to MongoDB
-                    recurringCharge.save(function (err) {
-                      if (err) {
-                    		console.log(err);
-                      }
-                      else {
-                      	console.log("New Recurring Charge Saved");
-                      }
+                    // var recurringCharge = new dbShopRecurringChargeDetail(result);
+                    // recurringCharge.save(function (err) {
+                    //   if (err) {console.log(err);}else {console.log("New Recurring Charge Saved");}
+                    // });
+                    
+                    // find Update or Insert
+                    result['shop'] = shopifyRouter.shop;
+                    dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
+                        console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
+                        //res.send(JSON.stringify(result,undefined,2));
+                        res.redirect(doc['recurring_application_charge'].confirmation_url);
                     });
-                    console.log("result['recurring_application_charge'].id :" + result['recurring_application_charge'].id);
-                    res.send(JSON.stringify(result,undefined,2));
-                    //res.redirect('./getProducts');
                 });
             }
         }
     });
+});
+
+shopifyRouter.get('/activateRecurringCharge',function(req, res, next){
+    
+    //// Here we Activate Recurring Charge for the Shop
+    res.send("Call Activate");
 });
 
 shopifyRouter.post('/deleteProduct',function(req,res,next){
