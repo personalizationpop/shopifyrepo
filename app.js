@@ -8,6 +8,13 @@ var bodyParser = require('body-parser');
 //Connect to Mongo
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp');
+
+app.use(express.session({
+  store: new MongoStore({
+    url: 'mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp'
+  }),
+  secret: '1234567890QWERTY'
+}));
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
