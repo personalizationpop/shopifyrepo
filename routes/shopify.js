@@ -100,12 +100,12 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                     //res.send(err);
                     result['shop'] = shopifyRouter.shop;
                     dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
-                        console.log(util.inspect(doc));
-                        res.send(JSON.stringify(doc,undefined,2));
-                        //result[0].get("token");
+                        //res.send(JSON.stringify(doc,undefined,2));
+                        var recurringChargeDetail = doc.get("recurring_application_charge");
+                        console.log("recDetail :" + util.inspect(recurringChargeDetail));
                         //console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
                         //res.send(JSON.stringify(result,undefined,2));
-                        res.redirect(doc['recurring_application_charge'].confirmation_url);
+                        res.redirect(recurringChargeDetail.confirmation_url);
                     });
                 });
             }
