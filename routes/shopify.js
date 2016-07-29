@@ -181,7 +181,7 @@ shopifyRouter.post('/createProduct',function(req,res,next){
     });
 });
 
-shopify.get('/getAllRecurringCharges',function(req, res, next){
+shopifyRouter.get('/getAllRecurringCharges',function(req, res, next){
     getShopToken(shopifyRouter.shop,function(err,status,token){
         if(err){ res.send("error while get Recurring Charges"); }else{
             if(status == "found"){
