@@ -98,10 +98,12 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                     
                     // find Update or Insert
                     //res.send(err);
-                    console.log(result['recurring_application_charge'].id);
                     result['shop'] = shopifyRouter.shop;
                     dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
-                        console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
+                        console.log(util.inspect(doc));
+                        res.send(JSON.stringify(doc,undefined,2));
+                        //result[0].get("token");
+                        //console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
                         //res.send(JSON.stringify(result,undefined,2));
                         res.redirect(doc['recurring_application_charge'].confirmation_url);
                     });
@@ -188,7 +190,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
         } else {
             if(status == "not found"){
                 delete shopifyRouter.config['access_token'];
-                console.log(util.inspect(shopifyRouter.config));
+                
                 
 //                 var newConfig = {
 //     shop: shopifyRouter.shop, // MYSHOP.myshopify.com
