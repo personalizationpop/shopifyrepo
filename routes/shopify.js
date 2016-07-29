@@ -189,9 +189,18 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
             if(status == "not found"){
                 delete shopifyRouter.config['access_token'];
                 console.log(util.inspect(shopifyRouter.config));
+                
+//                 var newConfig = {
+//     shop: shopifyRouter.shop, // MYSHOP.myshopify.com
+//     shopify_api_key: shopifyRouter.shopifyAppKey, // Your API key
+//     shopify_shared_secret: shopifyRouter.shopifySecretKey, // Your Shared Secret
+//     shopify_scope: shopifyRouter.shopifyScope,
+//     redirect_uri:shopifyRouter.redirectUri
+// };
                 var Shopify = new shopifyAPI(shopifyRouter.config);  
+                var query_params = req.query;
                 if (!Shopify.is_valid_signature(query_params,true)) {
-                    callback("Signature is not authentic!","");
+                    console.log("Signature is not authentic!");
                 }
                 var postDate =
                     {
