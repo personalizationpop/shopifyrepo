@@ -9,12 +9,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp');
 
-app.use(express.session({
-  store: new MongoStore({
-    url: 'mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp'
-  }),
-  secret: '1234567890QWERTY'
-}));
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
@@ -43,6 +37,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.session({
+  store: new MongoStore({
+    url: 'mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp'
+  }),
+  secret: '1234567890QWERTY'
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
