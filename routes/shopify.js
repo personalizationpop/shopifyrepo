@@ -74,7 +74,7 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
     getShopToken(shopifyRouter.shop,function(err,status,token){
         if(err){ res.send("error while creating recurring charge"); }else{
             if(status == "found"){
-                
+                console.log("found in Charge");
                 var name = "Sofizar Plan";
                 var price = "100";
                 ////// Here We Write the logic that which plan we want to assign this Store /////////////
@@ -213,6 +213,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                         });
                         // Saving it to the database.
                         doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
+                        res.redirect('./createRecurringCharge');
                         //res.send(util.inspect(data));
                     
                     });
