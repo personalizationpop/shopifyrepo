@@ -181,6 +181,19 @@ shopifyRouter.post('/createProduct',function(req,res,next){
     });
 });
 
+shopify.get('/getAllRecurringCharges',function(req, res, next){
+    getShopToken(shopifyRouter.shop,function(err,status,token){
+        if(err){ res.send("error while get Recurring Charges"); }else{
+            if(status == "found"){
+                var Shopify = new shopifyAPI(shopifyRouter.config);
+                Shopify.get('/admin/recurring_application_charges.json',function(err,result,header){
+                    res.send(JSON.stringify(result,undefined,2));
+                });
+            }
+        }
+    });    
+});
+
 shopifyRouter.get('/getProducts', function(req, res, next) {
     getShopToken(shopifyRouter.shop,function(err,status,token){
         if(err){ res.send("error while get Products"); }else{
