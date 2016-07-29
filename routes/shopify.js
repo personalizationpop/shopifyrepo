@@ -116,7 +116,7 @@ shopifyRouter.get('/activateRecurringCharge',function(req, res, next){
     console.log("ChargeId :" + chargeId);
     dbShopRecurringChargeDetail.findOne({"recurring_application_charge.id": parseInt(chargeId) }, function(err,obj) {
         if(err){console.log("err while activation :"+err)}else{
-            console.log('id:'+util.inspect(obj));
+            console.log('id:'+obj);
             if(obj.length>0)
             {
                 var recurringChargeDetail = obj.get("recurring_application_charge");
