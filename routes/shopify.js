@@ -183,11 +183,11 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
     //var clientStore = query_params['shop'];
     ////// Check Db for Access Token
     getShopToken(shopifyRouter.shop,function(err,status,token){
-        var Shopify = new shopifyAPI(shopifyRouter.config);  /// Now token is set in shopifyRouter.config['token']
         if (err) {
             console.log(' error'+err);
         } else {
             if(status == "not found"){
+                var Shopify = new shopifyAPI(shopifyRouter.config);  
                 if (!Shopify.is_valid_signature(query_params,true)) {
                     callback("Signature is not authentic!","");
                 }
@@ -202,7 +202,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                         if(err) {
                             return console.log(err);
                         }
-                    
+                        console.log("new access token :" + data.access_token);
                         ////// Set token
                         shopifyRouter.config['access_token'] = data.access_token;
                         
