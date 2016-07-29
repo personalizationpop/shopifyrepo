@@ -71,7 +71,8 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
     getShopToken(shopifyRouter.shop,function(err,status,token){
         if(err){ res.send("error while creating recurring charge"); }else{
             if(status == "found"){
-                console.log("found in Charge");
+                console.log("found token in Charge");
+                /////// Check if Charge for this app is created or not
                 var name = "Sofizar Plan";
                 var price = "100";
                 ////// Here We Write the logic that which plan we want to assign this Store /////////////
@@ -83,7 +84,6 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                             "test": true
                           }
                     };
-                console.log("found token");
                 //res.send(shopifyRouter.config);
                 var Shopify = new shopifyAPI(shopifyRouter.config);
                 Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
@@ -116,30 +116,33 @@ shopifyRouter.get('/activateRecurringCharge',function(req, res, next){
     console.log("ChargeId :" + chargeId);
     dbShopRecurringChargeDetail.findOne({"recurring_application_charge.id": parseInt(chargeId) }, function(err,obj) {
         if(err){console.log("err while activation :"+err)}else{
-            var recurringChargeDetail = obj.get("recurring_application_charge");
-            delete recurringChargeDetail["confirmation_url"];  /// Remove this Property
-            console.log("final recuringCharge for Activation :"+util.inspect(recurringChargeDetail));
-            getShopToken(shopifyRouter.shop,function(err,status,token){
-                if(err){ res.send("error while geting token"); }else{
-                    if(status == "found"){
-                        var Shopify = new shopifyAPI(shopifyRouter.config);
-                        /// no need to update bitting_on and status ,when we call activate it automatically update status and billing_on
-                        Shopify.post('/admin/recurring_application_charges/'+chargeId+'/activate.json',recurringChargeDetail,function(err,result,header){
-                            console.log('Result :' + result["recurring_application_charge"]);
-                            ///update some fieldsin db  than redirect
-                            dbShopRecurringChargeDetail.update({"recurring_application_charge.id": parseInt(chargeId) },{"recurring_application_charge.status":result["recurring_application_charge"].status,"recurring_application_charge.trial_ends_on":result["recurring_application_charge"].trial_ends_on,"recurring_application_charge.activated_on":result["recurring_application_charge"].activated_on,"recurring_application_charge.updated_at":result["recurring_application_charge"].updated_at },function(err,doc){
-                                console.log("Activation Status Saved in Db");
-                                //res.send(JSON.stringify(result,undefined,2));
-                                res.redirect('https://'+shopifyRouter.shop+'/admin/apps');
+            if(obj.length>0)
+            {
+                var recurringChargeDetail = obj.get("recurring_application_charge");
+                delete recurringChargeDetail["confirmation_url"];  /// Remove this Property
+                console.log("final recuringCharge for Activation :"+util.inspect(recurringChargeDetail));
+                getShopToken(shopifyRouter.shop,function(err,status,token){
+                    if(err){ res.send("error while geting token"); }else{
+                        if(status == "found"){
+                            var Shopify = new shopifyAPI(shopifyRouter.config);
+                            /// no need to update bitting_on and status ,when we call activate it automatically update status and billing_on
+                            Shopify.post('/admin/recurring_application_charges/'+chargeId+'/activate.json',recurringChargeDetail,function(err,result,header){
+                                console.log('Result :' + result["recurring_application_charge"]);
+                                ///update some fieldsin db  than redirect
+                                dbShopRecurringChargeDetail.update({"recurring_application_charge.id": parseInt(chargeId) },{"recurring_application_charge.status":result["recurring_application_charge"].status,"recurring_application_charge.trial_ends_on":result["recurring_application_charge"].trial_ends_on,"recurring_application_charge.activated_on":result["recurring_application_charge"].activated_on,"recurring_application_charge.updated_at":result["recurring_application_charge"].updated_at },function(err,doc){
+                                    console.log("Activation Status Saved in Db");
+                                    //res.send(JSON.stringify(result,undefined,2));
+                                    res.redirect('https://'+shopifyRouter.shop+'/admin/apps');
+                                });
                             });
-                        });
-                    }else{
-                        console.log("token not found while Activation");
-                        res.send("token not found while Activation");
+                        }else{
+                            console.log("token not found while Activation");
+                            res.send("token not found while Activation");
+                        }
                     }
-                }
-                
-            });
+                    
+                });
+            }else{ res.send("No charge in db to activate");}
         }
         
     });
