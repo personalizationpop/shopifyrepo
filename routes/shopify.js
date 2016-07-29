@@ -330,13 +330,14 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                         });
                         // Saving it to the database.
                         doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
-                        //res.redirect('./createRecurringCharge');
-                        createRecurringCharge(function(err){
-                            if(err){
-                                res.send(err);
-                            }
-                            ///otherwise redirecion to activation occurs
-                        });
+                        res.redirect('./createRecurringCharge');
+                        // createRecurringCharge(function(err){
+                        //     if(err){
+                        //         res.send(err);
+                        //     }
+                        //     ///otherwise redirecion to activation occurs
+                        // });
+                        
                         //res.send(util.inspect(data));
                     
                     });
