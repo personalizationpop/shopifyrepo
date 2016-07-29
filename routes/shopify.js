@@ -87,7 +87,7 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                           }
                     };
                 console.log("found token");
-                res.send(shopifyRouter.config);
+                //res.send(shopifyRouter.config);
                 var Shopify = new shopifyAPI(shopifyRouter.config);
                 Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
                     /////Insert response into db //////////
@@ -97,14 +97,14 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                     // });
                     
                     // find Update or Insert
-                    res.send(err);
-                    // console.log(result['recurring_application_charge'].id);
-                    // result['shop'] = shopifyRouter.shop;
-                    // dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
-                    //     console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
-                    //     //res.send(JSON.stringify(result,undefined,2));
-                    //     res.redirect(doc['recurring_application_charge'].confirmation_url);
-                    // });
+                    //res.send(err);
+                    console.log(result['recurring_application_charge'].id);
+                    result['shop'] = shopifyRouter.shop;
+                    dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
+                        console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
+                        //res.send(JSON.stringify(result,undefined,2));
+                        res.redirect(doc['recurring_application_charge'].confirmation_url);
+                    });
                 });
             }
         }
