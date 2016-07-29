@@ -20,7 +20,16 @@ shopifyRouter.config = {
     shopify_scope: shopifyRouter.shopifyScope,
     redirect_uri:shopifyRouter.redirectUri
 };
-
+                            ///How to insert new doc using mongoose
+                            /////Insert response into db //////////
+                            // var recurringCharge = new dbShopRecurringChargeDetail(result);
+                            // recurringCharge.save(function (err) {
+                            //   if (err) {console.log(err);}else {console.log("New Recurring Charge Saved");}
+                            // });
+                            
+                            // find Update or Insert
+                            //res.send(err);
+                            
 function getShopToken(shop,callback){
     console.log("shop :"+ shop);
     dbCollectionShopDetail.find({shop:shop},function(err,result){
@@ -81,6 +90,8 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                     }   
                     else
                     {
+                        var name = "Sofizar Plan";
+                        var price = "100";
                         ///// Create Charge for this Store
                         var postData ={
                           "recurring_application_charge": {
@@ -89,30 +100,25 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
                             "return_url": "https://herokushopifyapp.herokuapp.com/shopify/activateRecurringCharge",
                             "test": true
                         }};
-                        var name = "Sofizar Plan";
-                        var price = "100";
+
                         ////// Here We Write the logic that which plan we want to assign this Store /////////////
         
                         //res.send(shopifyRouter.config);
                         var Shopify = new shopifyAPI(shopifyRouter.config);
                         Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
-                            /////Insert response into db //////////
-                            // var recurringCharge = new dbShopRecurringChargeDetail(result);
-                            // recurringCharge.save(function (err) {
-                            //   if (err) {console.log(err);}else {console.log("New Recurring Charge Saved");}
-                            // });
-                            
-                            // find Update or Insert
-                            //res.send(err);
-                            result['shop'] = shopifyRouter.shop;
-                            dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
-                                //res.send(JSON.stringify(doc,undefined,2));
-                                var recurringChargeDetail = doc.get("recurring_application_charge");
-                                console.log("recDetail :" + util.inspect(recurringChargeDetail));
-                                //console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
-                                //res.send(JSON.stringify(result,undefined,2));
-                                res.redirect(recurringChargeDetail.confirmation_url);
-                            });
+                            if(err){
+                                res.send("Error While Create Charge");
+                            }else{
+                                result['shop'] = shopifyRouter.shop;
+                                dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
+                                    //res.send(JSON.stringify(doc,undefined,2));
+                                    var recurringChargeDetail = doc.get("recurring_application_charge");
+                                    console.log("recDetail :" + util.inspect(recurringChargeDetail));
+                                    //console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
+                                    //res.send(JSON.stringify(result,undefined,2));
+                                    res.redirect(recurringChargeDetail.confirmation_url);
+                                });
+                            }
                         });                      
                     }
                 });
