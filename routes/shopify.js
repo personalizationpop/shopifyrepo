@@ -187,6 +187,8 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
             console.log(' error'+err);
         } else {
             if(status == "not found"){
+                delete shopifyRouter.config['access_token'];
+                console.log(util.inspect(shopifyRouter.config));
                 var Shopify = new shopifyAPI(shopifyRouter.config);  
                 if (!Shopify.is_valid_signature(query_params,true)) {
                     callback("Signature is not authentic!","");
