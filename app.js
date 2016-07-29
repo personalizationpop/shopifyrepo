@@ -37,12 +37,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.session({
-  store: new MongoStore({
-    url: 'mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp'
-  }),
-  secret: '1234567890QWERTY'
-}));
+// app.use(express.session({
+//   store: new MongoStore({
+//     url: 'mongodb://adeel:admin123@ds029735.mlab.com:29735/dbtestapp'
+//   }),
+//   secret: '1234567890QWERTY'
+// }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
