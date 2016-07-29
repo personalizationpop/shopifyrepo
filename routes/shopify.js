@@ -116,30 +116,28 @@ shopifyRouter.get('/activateRecurringCharge',function(req, res, next){
     console.log("ChargeId :" + chargeId);
     dbShopRecurringChargeDetail.findOne({"recurring_application_charge.id": parseInt(chargeId) }, function(err,obj) {
         if(err){console.log("err while activation :"+err)}else{
-            console.log(util.inspect(obj));
-            res.send(JSON.stringify(obj,undefined,2));
-            // var recurringChargeDetail = obj.get("recurring_application_charge");
-            // recurringChargeDetail["status"] = "accepted";
-            // recurringChargeDetail["return_url"] = "https://"+shopifyRouter.shop+"/admin/apps";
-            // recurringChargeDetail["billing_on"] = "2016-07-30";
-            // delete recurringChargeDetail["confirmation_url"];  /// Remove this Property
-            // console.log("final recuringCharge for Activation :"+recurringChargeDetail);
-            // getShopToken(shopifyRouter.shop,function(err,status,token){
-            //     if(err){ res.send("error while geting token"); }else{
-            //         if(status == "found"){
-            //             var Shopify = new shopifyAPI(shopifyRouter.config);
-            //             Shopify.post('/admin/recurring_application_charges/'+chargeId+'/activate.json',recurringChargeDetail,function(err,result,header){
-            //                 console.log('Result :' + result["recurring_application_charge"]);
-            //                 res.send(JSON.stringify(result,undefined,2));
-            //                 //res.redirect('./getProducts');
-            //             });
-            //         }else{
-            //             console.log("token not found while Activation");
-            //             res.send("token not found while Activation");
-            //         }
-            //     }
+            var recurringChargeDetail = obj.get("recurring_application_charge");
+            recurringChargeDetail["status"] = "accepted";
+            recurringChargeDetail["return_url"] = "https://"+shopifyRouter.shop+"/admin/apps";
+            recurringChargeDetail["billing_on"] = "2016-07-30";
+            delete recurringChargeDetail["confirmation_url"];  /// Remove this Property
+            console.log("final recuringCharge for Activation :"+util.inspect(recurringChargeDetail));
+            getShopToken(shopifyRouter.shop,function(err,status,token){
+                if(err){ res.send("error while geting token"); }else{
+                    if(status == "found"){
+                        var Shopify = new shopifyAPI(shopifyRouter.config);
+                        Shopify.post('/admin/recurring_application_charges/'+chargeId+'/activate.json',recurringChargeDetail,function(err,result,header){
+                            console.log('Result :' + result["recurring_application_charge"]);
+                            res.send(JSON.stringify(result,undefined,2));
+                            //res.redirect('./getProducts');
+                        });
+                    }else{
+                        console.log("token not found while Activation");
+                        res.send("token not found while Activation");
+                    }
+                }
                 
-            // });
+            });
         }
         
     });
