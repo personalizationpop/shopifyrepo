@@ -114,10 +114,10 @@ shopifyRouter.get('/activateRecurringCharge',function(req, res, next){
     var query_params = req.query;
     var chargeId = query_params['charge_id'];
     console.log("ChargeId :" + chargeId);
-    dbShopRecurringChargeDetail.find({"recurring_application_charge.id": chargeId}, function(err,obj) {
+    dbShopRecurringChargeDetail.find({"recurring_application_charge.id": parseInt(chargeId) }, function(err,obj) {
         if(err){console.log("err while activation :"+err)}else{
             console.log(util.inspect(obj));
-            res.send("Call Activate ,If Already Activate than move to Store Page");
+            res.send(JSON.stringify(obj,undefined,2));
             // var recurringChargeDetail = obj.get("recurring_application_charge");
             // recurringChargeDetail["status"] = "accepted";
             // recurringChargeDetail["return_url"] = "https://"+shopifyRouter.shop+"/admin/apps";
