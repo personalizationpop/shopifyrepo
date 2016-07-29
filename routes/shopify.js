@@ -49,9 +49,6 @@ shopifyRouter.get('/', function(req, res, next) {
 
 shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
     getShopToken(shopifyRouter.shop,function(err,status,token){
-        console.log("err : "+ util.inspect(err));
-        console.log("status : "+ util.inspect(status));
-        console.log("token : "+ util.inspect(token));
         if(err){ res.send("error while deleting resurring charge"); }else{
            if(status == "found"){
                 var Shopify = new shopifyAPI(shopifyRouter.config);
@@ -114,7 +111,35 @@ shopifyRouter.get('/createRecurringCharge',function(req, res, next){
 });
 
 shopifyRouter.get('/activateRecurringCharge',function(req, res, next){
-    
+    var query_params = req.query;
+    var chargeId = query_params['charge_id'];
+    dbShopRecurringChargeDetail.findOne({id: chargeId}, function(err,obj) {
+        if(err){console.log("err while activation :"+err)}else{
+            var recurringChargeDetail = obj.get("recurring_application_charge");
+            recurringChargeDetail["status"] = "accepted";
+            recurringChargeDetail["return_url"] = "https://"+shopifyRouter.shop+"/admin/apps";
+            recurringChargeDetail["billing_on"] = "2016-07-30";
+            delete recurringChargeDetail["confirmation_url"];  /// Remove this Property
+            console.log("final recuringCharge for Activation :"+recurringChargeDetail);
+            getShopToken(shopifyRouter.shop,function(err,status,token){
+                if(err){ res.send("error while geting token"); }else{
+                    if(status == "found"){
+                        var Shopify = new shopifyAPI(shopifyRouter.config);
+                        Shopify.post('/admin/recurring_application_charges/'+chargeId+'/activate.json',recurringChargeDetail,function(err,result,header){
+                            console.log('Result :' + result["recurring_application_charge"]);
+                            res.send(JSON.stringify(result,undefined,2));
+                            //res.redirect('./getProducts');
+                        });
+                    }else{
+                        console.log("token not found while Activation");
+                        res.send("token not found while Activation");
+                    }
+                }
+                
+            });
+        }
+        
+    });
     //// Here we Activate Recurring Charge for the Shop
     res.send("Call Activate ,If Already Activate than move to Store Page");
 });
