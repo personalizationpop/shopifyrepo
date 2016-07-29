@@ -116,8 +116,7 @@ shopifyRouter.get('/activateRecurringCharge',function(req, res, next){
     console.log("ChargeId :" + chargeId);
     dbShopRecurringChargeDetail.findOne({"recurring_application_charge.id": 12345 }, function(err,obj) {
         if(err){console.log("err while activation :"+err)}else{
-            console.log('id:'+obj);
-            if(obj.length>0)
+            if(obj !== null && obj !== "undefined")
             {
                 var recurringChargeDetail = obj.get("recurring_application_charge");
                 delete recurringChargeDetail["confirmation_url"];  /// Remove this Property
