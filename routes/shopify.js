@@ -353,7 +353,13 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                     });
                 }else{
                     console.log("App Already Installed,Now we redirect to createRecurringCharge  ");
-                    res.redirect('./createRecurringCharge');
+                    //res.redirect('./createRecurringCharge');
+                    createRecurringCharge(function(err){
+                        if(err){
+                            res.send(err);
+                        }
+                        ///otherwise redirecion to activation occurs
+                    });
                 }
             }
     });  
