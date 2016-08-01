@@ -73,19 +73,19 @@ shopifyRouter.post('/deleteRecurringCharge',function(req, res, next){
 
 function createRecurringCharge(callback){
     getShopToken(shopifyRouter.shop,function(err,status,token){
-        if(err){ callback("error while creating recurring charge"); }else{
+        if(err){ callback(false,"error while creating recurring charge"); }else{
             if(status == "found"){
                 console.log("found token in Charge");
                 /////// Check if Charge for this app is created or not
                 dbShopRecurringChargeDetail.findOne( {shop:shopifyRouter.shop} ,function(err,objChargeDetail){
                     if(err){
-                        callback("Error while fetching Shop Recurring Charge Detail: "+err);
+                        callback(false,"Error while fetching Shop Recurring Charge Detail: "+err);
                     }else{
                         if(objChargeDetail !== null && objChargeDetail !== "undefined")
                         {
                              ////Already Have Charge for this Store
-                             res.redirect('https://'+shopifyRouter.shop+'/admin/apps');
-                             callback("");
+                             //res.redirect('https://'+shopifyRouter.shop+'/admin/apps');
+                             callback(true,'https://'+shopifyRouter.shop+'/admin/apps');
                         }   
                         else
                         {
@@ -106,18 +106,18 @@ function createRecurringCharge(callback){
                             var Shopify = new shopifyAPI(shopifyRouter.config);
                             Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
                                 if(err){
-                                    callback("Error While Create Charge");
+                                    callback(false,"Error While Create Charge");
                                 }else{
                                     result['shop'] = shopifyRouter.shop;
                                     dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
                                         if(err){
-                                            callback(err);
+                                            callback(false,err);
                                         }else{
                                             //res.send(JSON.stringify(doc,undefined,2));
                                             var recurringChargeDetail = doc.get("recurring_application_charge");
                                             console.log("recDetail :" + util.inspect(recurringChargeDetail));
                                             res.redirect(recurringChargeDetail.confirmation_url);
-                                            callback("");
+                                            callback(true,recurringChargeDetail.confirmation_url);
                                         }
                                     });
                                 }
@@ -126,7 +126,7 @@ function createRecurringCharge(callback){
                     }
                 });
             }else{
-                callback("App Not Installed in this Store");
+                callback(false,"App Not Installed in this Store");
             }
         }
     });
@@ -354,9 +354,11 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                 }else{
                     console.log("App Already Installed,Now we redirect to createRecurringCharge  ");
                     //res.redirect('./createRecurringCharge');
-                    createRecurringCharge(function(err){
+                    createRecurringCharge(function(err,action){
                         if(err){
-                            res.send(err);
+                            res.send(action);
+                        }else{
+                            res.redirect(action);
                         }
                         ///otherwise redirecion to activation occurs
                     });
