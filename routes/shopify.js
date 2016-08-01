@@ -78,45 +78,55 @@ function createRecurringCharge(callback){
                 console.log("found token in Charge");
                 /////// Check if Charge for this app is created or not
                 dbShopRecurringChargeDetail.findOne( {shop:shopifyRouter.shop} ,function(err,objChargeDetail){
-                    if(objChargeDetail !== null && objChargeDetail !== "undefined")
-                    {
-                         ////Already Have Charge for this Store
-                         res.redirect('https://'+shopifyRouter.shop+'/admin/apps');
-                    }   
-                    else
-                    {
-                        var name = "Sofizar Plan";
-                        var price = "100";
-                        ///// Create Charge for this Store
-                        var postData ={
-                          "recurring_application_charge": {
-                            "name": name,
-                            "price": price,
-                            "return_url": "https://herokushopifyapp.herokuapp.com/shopify/activateRecurringCharge",
-                            "test": true
-                        }};
-
-                        ////// Here We Write the logic that which plan we want to assign this Store /////////////
-        
-                        //res.send(shopifyRouter.config);
-                        var Shopify = new shopifyAPI(shopifyRouter.config);
-                        Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
-                            if(err){
-                                callback("Error While Create Charge");
-                            }else{
-                                result['shop'] = shopifyRouter.shop;
-                                dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
-                                    //res.send(JSON.stringify(doc,undefined,2));
-                                    var recurringChargeDetail = doc.get("recurring_application_charge");
-                                    console.log("recDetail :" + util.inspect(recurringChargeDetail));
-                                    //console.log("doc['recurring_application_charge'].confirmation_url :" + doc['recurring_application_charge'].confirmation_url);
-                                    //res.send(JSON.stringify(result,undefined,2));
-                                    res.redirect(recurringChargeDetail.confirmation_url);
-                                });
-                            }
-                        });                      
+                    if(err){
+                        callback("Error while fetching Shop Recurring Charge Detail: "+err);
+                    }else{
+                        if(objChargeDetail !== null && objChargeDetail !== "undefined")
+                        {
+                             ////Already Have Charge for this Store
+                             res.redirect('https://'+shopifyRouter.shop+'/admin/apps');
+                             callback("");
+                        }   
+                        else
+                        {
+                            var name = "Sofizar Plan";
+                            var price = "100";
+                            ///// Create Charge for this Store
+                            var postData ={
+                              "recurring_application_charge": {
+                                "name": name,
+                                "price": price,
+                                "return_url": "https://herokushopifyapp.herokuapp.com/shopify/activateRecurringCharge",
+                                "test": true
+                            }};
+    
+                            ////// Here We Write the logic that which plan we want to assign this Store /////////////
+            
+                            //res.send(shopifyRouter.config);
+                            var Shopify = new shopifyAPI(shopifyRouter.config);
+                            Shopify.post('/admin/recurring_application_charges.json',postData,function(err,result,header){
+                                if(err){
+                                    callback("Error While Create Charge");
+                                }else{
+                                    result['shop'] = shopifyRouter.shop;
+                                    dbShopRecurringChargeDetail.findOneAndUpdate( {shop:shopifyRouter.shop} , result , {upsert:true,new:true},function(err,doc){
+                                        if(err){
+                                            callback(err);
+                                        }else{
+                                            //res.send(JSON.stringify(doc,undefined,2));
+                                            var recurringChargeDetail = doc.get("recurring_application_charge");
+                                            console.log("recDetail :" + util.inspect(recurringChargeDetail));
+                                            res.redirect(recurringChargeDetail.confirmation_url);
+                                            callback("");
+                                        }
+                                    });
+                                }
+                            });                      
+                    }
                     }
                 });
+            }else{
+                callback("App Not Installed in this Store");
             }
         }
     });
@@ -330,13 +340,13 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                         });
                         // Saving it to the database.
                         doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
-                        res.redirect('./createRecurringCharge');
-                        // createRecurringCharge(function(err){
-                        //     if(err){
-                        //         res.send(err);
-                        //     }
-                        //     ///otherwise redirecion to activation occurs
-                        // });
+                        //res.redirect('./createRecurringCharge');
+                        createRecurringCharge(function(err){
+                            if(err){
+                                res.send(err);
+                            }
+                            ///otherwise redirecion to activation occurs
+                        });
                         
                         //res.send(util.inspect(data));
                     
