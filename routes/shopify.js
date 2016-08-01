@@ -116,7 +116,7 @@ function createRecurringCharge(callback){
                                             //res.send(JSON.stringify(doc,undefined,2));
                                             var recurringChargeDetail = doc.get("recurring_application_charge");
                                             console.log("recDetail :" + util.inspect(recurringChargeDetail));
-                                            res.redirect(recurringChargeDetail.confirmation_url);
+                                            //res.redirect(recurringChargeDetail.confirmation_url);
                                             callback(true,recurringChargeDetail.confirmation_url);
                                         }
                                     });
