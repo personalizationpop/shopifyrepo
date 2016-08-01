@@ -341,9 +341,11 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                         // Saving it to the database.
                         doc.save(function (err) {if (err){ console.log ('Error on save!')}else{console.log('record saved')}});
                         //res.redirect('./createRecurringCharge');
-                        createRecurringCharge(function(err){
-                            if(err){
-                                res.send(err);
+                        createRecurringCharge(function(err,action){
+                            if(err == false){
+                                res.send(action);
+                            }else{
+                                res.redirect(action);
                             }
                             ///otherwise redirecion to activation occurs
                         });
@@ -355,7 +357,7 @@ shopifyRouter.get('/finish_auth',function (req,res,next) {
                     console.log("App Already Installed,Now we redirect to createRecurringCharge  ");
                     //res.redirect('./createRecurringCharge');
                     createRecurringCharge(function(err,action){
-                        if(err){
+                        if(err == false){
                             res.send(action);
                         }else{
                             res.redirect(action);
